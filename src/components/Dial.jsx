@@ -40,7 +40,23 @@ function useSize(ref) {
   return size
 }
 
-const CENTER_SCALE = 1.18 // how much bigger the middle item is
+// Size by position: middle = 100%, next out = 75%, the ones after = 50%,
+// changing smoothly in between while the dial turns.
+const SIZE_STEP = 0.25
+const MIN_SIZE = 0.3
+const sizeAt = (o) => Math.max(MIN_SIZE, 1 - SIZE_STEP * Math.abs(o))
+const UMAX = (1 - MIN_SIZE) / SIZE_STEP // offset where items stop shrinking
+
+// Distance along the curve from the middle to an item at offset o, when each
+// item needs room proportional to its own size (+ a fixed gap). Neighbours
+// are always exactly far enough apart to never touch.
+function distAt(o, unit, gap) {
+  const u = Math.abs(o)
+  const k = Math.min(u, UMAX)
+  const shrinking = unit * (k - (SIZE_STEP / 2) * k * k) + gap * k
+  const rest = (unit * MIN_SIZE + gap) * Math.max(0, u - UMAX)
+  return Math.sign(o) * (shrinking + rest)
+}
 const PAD_EM = 0.3 // button padding + letter spacing allowance, in em
 
 // Width of the widest label, as a fraction of the font size (measured with
@@ -68,17 +84,16 @@ function useLabelRatio(labels) {
 
 /*
   Works out font size, spacing and the curve so that:
-  - the widest label always fits on screen (even when it is the big middle one)
-  - items are spaced by at least one full label (+ a gap), so nothing overlaps
+  - the widest label always fits on screen when it is the big middle one
+  - each item gets room in proportion to its size, so nothing overlaps
 */
 function geometry(layout, w, h, ratio) {
   if (layout === 'bottom') {
     // Phone: items in a row along an arc that rises in the middle.
-    const fs = clamp((w * 0.8) / (ratio * CENTER_SCALE), 18, 36)
-    const widest = ratio * fs
-    const stepPx = widest * (CENTER_SCALE / 2 + 0.5) + 28 // neighbors start after the middle item ends
+    const fs = clamp((w * 0.8) / ratio, 18, 40)
+    const unit = ratio * fs // room a full-size item needs side by side
     const Rc = Math.max(w * 1.6, 600)
-    return { layout, fs, stepPx, Rc, cx: w / 2, baseY: h * 0.5, w, h }
+    return { layout, fs, unit, gap: 26, Rc, cx: w / 2, baseY: h * 0.5, w, h }
   }
   // Desktop: items sit around the left half of a circle whose center is off
   // to the right, like numbers on a clock face. Each label's right end sits on
@@ -86,32 +101,32 @@ function geometry(layout, w, h, ratio) {
   // instead of colliding, and the top and bottom bend clearly to the right.
   const inset = clamp(w * 0.06, 16, 36)
   const margin = 22
-  const Rc = clamp(h * 0.34, 200, 360)
+  const Rc = clamp(h * 0.36, 210, 380)
   const lineH = 1.2
-  let fs = 60
-  for (let i = 0; i < 4; i++) {
-    const stepPx = fs * lineH * CENTER_SCALE + 14
-    const ang = stepPx / Rc
-    const shift2 = Rc * (1 - Math.cos(Math.min(ang * 2, Math.PI / 2))) // how far right the ±2 items move
-    const fitWidth = (w - inset - margin - shift2) / (ratio * CENTER_SCALE)
-    const fitHeight = (h * 0.15) / (lineH * CENTER_SCALE) // keeps ±2 items comfortably on screen
-    fs = clamp(Math.min(60, fitWidth, fitHeight), 18, 60)
+  const gap = 10
+  let fs = 72
+  for (let i = 0; i < 5; i++) {
+    const unit = fs * lineH
+    const phi2 = Math.min(distAt(2, unit, gap) / Rc, Math.PI / 2)
+    const shift2 = Rc * (1 - Math.cos(phi2)) // how far right the ±2 items move
+    const fitWidth = (w - inset - margin - shift2) / ratio
+    const fitHeight = h * 0.11 // keeps the five visible items comfortably on screen
+    fs = clamp(Math.min(72, fitWidth, fitHeight), 18, 72)
   }
-  const stepPx = fs * lineH * CENTER_SCALE + 14
-  const anchorX = inset + ratio * fs * CENTER_SCALE // right end of the middle label
-  return { layout, fs, stepPx, Rc, ang: stepPx / Rc, cx: anchorX + Rc, cy: h / 2, w, h }
+  const anchorX = inset + ratio * fs // right end of the middle label
+  return { layout, fs, unit: fs * lineH, gap, Rc, cx: anchorX + Rc, cy: h / 2, w, h }
 }
 
 function placeItem(geo, o) {
   // o = how many steps this item is away from the middle (can be fractional)
+  const d = distAt(o, geo.unit, geo.gap)
   if (geo.layout === 'bottom') {
-    const dx = o * geo.stepPx
-    const ax = clamp(dx, -geo.Rc + 1, geo.Rc - 1)
+    const ax = clamp(d, -geo.Rc + 1, geo.Rc - 1)
     const y = geo.baseY + (geo.Rc - Math.sqrt(geo.Rc * geo.Rc - ax * ax))
     const tilt = (Math.asin(ax / geo.Rc) * 180) / Math.PI
-    return { x: geo.cx + dx, y, rotate: tilt }
+    return { x: geo.cx + d, y, rotate: tilt }
   }
-  const phi = clamp(o * geo.ang, -Math.PI * 0.9, Math.PI * 0.9)
+  const phi = clamp(d / geo.Rc, -Math.PI * 0.9, Math.PI * 0.9)
   return {
     x: geo.cx - geo.Rc * Math.cos(phi),
     y: geo.cy + geo.Rc * Math.sin(phi),
@@ -124,7 +139,7 @@ function DialItem({ index, label, pos, geo, isCenter, onPick }) {
   const x = useTransform(offset, (o) => placeItem(geo, o).x)
   const y = useTransform(offset, (o) => placeItem(geo, o).y)
   const rotate = useTransform(offset, (o) => placeItem(geo, o).rotate)
-  const scale = useTransform(offset, (o) => 1 + (CENTER_SCALE - 1) * Math.max(0, 1 - Math.abs(o)))
+  const scale = useTransform(offset, sizeAt)
   const fade = geo.layout === 'bottom' ? 1.6 : 2.7
   const opacity = useTransform(offset, (o) => clamp(1 - Math.abs(o) / fade, 0, 1) ** 1.2)
 
@@ -235,7 +250,7 @@ export default function Dial({ items, active, onSelect, layout }) {
       pos.stop()
       panelRef.current?.setPointerCapture(d.id)
     }
-    if (d.moving) pos.set(d.start - delta / geo.stepPx)
+    if (d.moving) pos.set(d.start - delta / (geo.unit * 0.875 + geo.gap))
   }
   const onPointerUp = () => {
     const d = drag.current
