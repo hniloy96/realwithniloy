@@ -59,18 +59,18 @@ function distAt(o, unit, gap) {
 }
 const PAD_EM = 0.3 // button padding + letter spacing allowance, in em
 
-// Width of the widest label, as a fraction of the font size (measured with
-// the real font, so the layout adapts to whatever font is set in CSS).
-function useLabelRatio(labels) {
-  const [ratio, setRatio] = useState(6.5)
+// Width of each label as a multiple of the font size (measured with the real
+// font, so the layout adapts to whatever font is set in CSS).
+function useLabelWidths(labels) {
+  const [m, setM] = useState(() => ({ ratio: 6.5, widths: labels.map(() => 6.5) }))
   useEffect(() => {
     let alive = true
     const family = getComputedStyle(document.documentElement).getPropertyValue('--hand').trim() || 'serif'
     const measure = () => {
       const ctx = document.createElement('canvas').getContext('2d')
       ctx.font = `400 100px ${family}`
-      const widest = Math.max(...labels.map((l) => ctx.measureText(l).width + l.length * 1))
-      if (alive) setRatio(widest / 100 + PAD_EM)
+      const widths = labels.map((l) => (ctx.measureText(l).width + l.length) / 100 + PAD_EM)
+      if (alive) setM({ ratio: Math.max(...widths), widths })
     }
     measure()
     document.fonts.load(`400 100px ${family.split(',')[0]}`).then(measure, measure)
@@ -79,7 +79,7 @@ function useLabelRatio(labels) {
       alive = false
     }
   }, [labels])
-  return ratio
+  return m
 }
 
 /*
@@ -87,13 +87,22 @@ function useLabelRatio(labels) {
   - the widest label always fits on screen when it is the big middle one
   - each item gets room in proportion to its size, so nothing overlaps
 */
-function geometry(layout, w, h, ratio) {
+function geometry(layout, w, h, { ratio, widths }) {
   if (layout === 'bottom') {
-    // Phone: items in a row along an arc that rises in the middle.
-    const fs = clamp((w * 0.8) / ratio, 18, 40)
-    const unit = ratio * fs // room a full-size item needs side by side
-    const Rc = Math.max(w * 1.6, 600)
-    return { layout, fs, unit, gap: 26, Rc, cx: w / 2, baseY: h * 0.5, w, h }
+    // Phone: items in a row along an arc that rises in the middle. Items are
+    // packed by their real widths (a small fixed gap between neighbours), and
+    // the font size is chosen so the middle item plus both neighbours always
+    // fit across the screen, whichever item is in the middle.
+    const gap = 12
+    const n = widths.length
+    let need = 0 // widest "half middle + one neighbour at 75%", in font sizes
+    for (let c = 0; c < n; c++) {
+      const side = Math.max(widths[mod(c - 1, n)], widths[mod(c + 1, n)])
+      need = Math.max(need, widths[c] / 2 + sizeAt(1) * side)
+    }
+    const fs = clamp((w * 0.47 - gap) / need, 12, 30)
+    const Rc = Math.max(w * 1.8, 600)
+    return { layout, fs, widths, gap, Rc, cx: w / 2, baseY: h * 0.55, w, h }
   }
   // Desktop: items sit around the left half of a circle whose center is off
   // to the right, like numbers on a clock face. Each label's right end sits on
@@ -117,15 +126,31 @@ function geometry(layout, w, h, ratio) {
   return { layout, fs, unit: fs * lineH, gap, Rc, cx: anchorX + Rc, cy: h / 2, w, h }
 }
 
-function placeItem(geo, o) {
+// Phone: horizontal position of item k when item c is exactly in the middle,
+// packing labels edge to edge (by their real, scaled widths) plus a gap.
+function rowX(geo, k, c) {
+  const n = geo.widths.length
+  const half = (j) => (geo.widths[mod(j, n)] * geo.fs * sizeAt(j - c)) / 2
+  let x = 0
+  if (k > c) for (let j = c; j < k; j++) x += half(j) + half(j + 1) + geo.gap
+  else for (let j = c; j > k; j--) x -= half(j) + half(j - 1) + geo.gap
+  return x
+}
+
+function placeItem(geo, o, index) {
   // o = how many steps this item is away from the middle (can be fractional)
-  const d = distAt(o, geo.unit, geo.gap)
   if (geo.layout === 'bottom') {
+    // blend between the two neighbouring "resting" layouts while turning
+    const p = index - o
+    const c0 = Math.floor(p)
+    const f = p - c0
+    const d = rowX(geo, index, c0) * (1 - f) + rowX(geo, index, c0 + 1) * f
     const ax = clamp(d, -geo.Rc + 1, geo.Rc - 1)
     const y = geo.baseY + (geo.Rc - Math.sqrt(geo.Rc * geo.Rc - ax * ax))
     const tilt = (Math.asin(ax / geo.Rc) * 180) / Math.PI
-    return { x: geo.cx + d, y, rotate: tilt }
+    return { x: geo.cx + d, y, rotate: tilt * 0.6 }
   }
+  const d = distAt(o, geo.unit, geo.gap)
   const phi = clamp(d / geo.Rc, -Math.PI * 0.9, Math.PI * 0.9)
   return {
     x: geo.cx - geo.Rc * Math.cos(phi),
@@ -136,11 +161,14 @@ function placeItem(geo, o) {
 
 function DialItem({ index, label, pos, geo, isCenter, onPick }) {
   const offset = useTransform(pos, (p) => index - p)
-  const x = useTransform(offset, (o) => placeItem(geo, o).x)
-  const y = useTransform(offset, (o) => placeItem(geo, o).y)
-  const rotate = useTransform(offset, (o) => placeItem(geo, o).rotate)
+  const x = useTransform(offset, (o) => placeItem(geo, o, index).x)
+  const y = useTransform(offset, (o) => placeItem(geo, o, index).y)
+  const rotate = useTransform(offset, (o) => placeItem(geo, o, index).rotate)
   const scale = useTransform(offset, sizeAt)
-  const fade = geo.layout === 'bottom' ? 1.6 : 2.7
+  // Blur follows the size: sharp in the middle, softer further out
+  const blurMax = Math.max(geo.fs * 0.1, 3)
+  const filter = useTransform(offset, (o) => `blur(${((1 - sizeAt(o)) * blurMax).toFixed(2)}px)`)
+  const fade = geo.layout === 'bottom' ? 2.4 : 2.7
   const opacity = useTransform(offset, (o) => clamp(1 - Math.abs(o) / fade, 0, 1) ** 1.2)
 
   const side = geo.layout === 'side'
@@ -159,6 +187,7 @@ function DialItem({ index, label, pos, geo, isCenter, onPick }) {
           originY: 0.5,
           scale,
           opacity,
+          filter,
         }}
         tabIndex={isCenter ? 0 : -1}
         aria-current={isCenter ? 'true' : undefined}
@@ -174,8 +203,8 @@ export default function Dial({ items, active, onSelect, layout }) {
   const N = items.length
   const panelRef = useRef(null)
   const { w, h } = useSize(panelRef)
-  const ratio = useLabelRatio(items)
-  const geo = geometry(layout, w, h, ratio)
+  const labelSizes = useLabelWidths(items)
+  const geo = geometry(layout, w, h, labelSizes)
 
   const pos = useMotionValue(active)
   const target = useRef(active)
@@ -250,7 +279,7 @@ export default function Dial({ items, active, onSelect, layout }) {
       pos.stop()
       panelRef.current?.setPointerCapture(d.id)
     }
-    if (d.moving) pos.set(d.start - delta / (geo.unit * 0.875 + geo.gap))
+    if (d.moving) pos.set(d.start - delta / (layout === 'bottom' ? geo.fs * 4.5 + geo.gap : geo.unit * 0.875 + geo.gap))
   }
   const onPointerUp = () => {
     const d = drag.current

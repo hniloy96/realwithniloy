@@ -611,7 +611,7 @@ main {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 128px;
+  height: 112px;
   background: linear-gradient(to bottom, rgb(var(--bg-rgb) / 0), rgb(var(--bg-rgb) / 0.94) 30%, var(--bg) 55%);
 }
 
