@@ -7,9 +7,11 @@ import { animate, motion, useMotionValue, useTransform } from 'motion/react'
   - `pos` is a single number: which item sits in the middle. It is NOT limited
     to 0..4, it keeps counting (…, -1, 0, 1, 2, …) so the dial loops forever.
     Item k shows label items[k mod 5].
-  - Every item is a "spoke" rotated around a circle center:
-      side   (desktop): center sits off-screen to the RIGHT, so the ends bend right
-      bottom (phone)  : center sits BELOW the screen, so the arc bulges upward
+  - Items sit along a curve:
+      side   (desktop): stacked down the right side, top and bottom bend right
+      bottom (phone)  : in a row along the bottom, the middle sits highest
+  - Font size and spacing are computed from the real label widths, so the
+    widest label always fits and no two items overlap.
   - Mouse wheel over the dial moves exactly one item per notch and never
     scrolls the page. Dragging / swiping also spins it.
 */
@@ -38,48 +40,101 @@ function useSize(ref) {
   return size
 }
 
-function geometry(layout, w, h) {
-  if (layout === 'bottom') {
-    const R = Math.max(w * 1.15, 440)
-    const stepPx = clamp(w * 0.64, 180, 300)
-    return {
-      R,
-      cx: w / 2,
-      cy: h * 0.5 + R,
-      step: (stepPx / R) * (180 / Math.PI),
-      pxPerItem: stepPx,
+const CENTER_SCALE = 1.18 // how much bigger the middle item is
+const PAD_EM = 0.3 // button padding + letter spacing allowance, in em
+
+// Width of the widest label, as a fraction of the font size (measured with
+// the real font, so the layout adapts to whatever font is set in CSS).
+function useLabelRatio(labels) {
+  const [ratio, setRatio] = useState(6.5)
+  useEffect(() => {
+    let alive = true
+    const family = getComputedStyle(document.documentElement).getPropertyValue('--hand').trim() || 'serif'
+    const measure = () => {
+      const ctx = document.createElement('canvas').getContext('2d')
+      ctx.font = `400 100px ${family}`
+      const widest = Math.max(...labels.map((l) => ctx.measureText(l).width + l.length * 1))
+      if (alive) setRatio(widest / 100 + PAD_EM)
     }
-  }
-  // Circle center sits off to the RIGHT of the screen, so the top and bottom
-  // items bend toward the right edge and the middle item sits furthest left.
-  const R = clamp(h * 0.55, 280, 600)
-  const stepPx = clamp(h * 0.135, 84, 128)
-  return {
-    R,
-    cx: clamp(w * 0.1, 24, 48) + R,
-    cy: h / 2,
-    step: (stepPx / R) * (180 / Math.PI),
-    pxPerItem: stepPx,
-  }
+    measure()
+    document.fonts.load(`400 100px ${family.split(',')[0]}`).then(measure, measure)
+    document.fonts.ready.then(measure)
+    return () => {
+      alive = false
+    }
+  }, [labels])
+  return ratio
 }
 
-function DialItem({ index, label, pos, geo, layout, isCenter, onPick }) {
-  const theta = useTransform(pos, (p) => (index - p) * geo.step)
-  const closeness = useTransform(theta, (t) => Math.max(0, 1 - Math.abs(t) / geo.step))
-  const opacity = useTransform(theta, (t) => clamp(1 - Math.abs(t) / (geo.step * 3.3), 0, 1) ** 1.3)
-  const scale = useTransform(closeness, (c) => 1 + 0.28 * c)
-  const negTheta = useTransform(theta, (t) => -t)
+/*
+  Works out font size, spacing and the curve so that:
+  - the widest label always fits on screen (even when it is the big middle one)
+  - items are spaced by at least one full label (+ a gap), so nothing overlaps
+*/
+function geometry(layout, w, h, ratio) {
+  if (layout === 'bottom') {
+    // Phone: items in a row along an arc that rises in the middle.
+    const fs = clamp((w * 0.8) / (ratio * CENTER_SCALE), 18, 36)
+    const widest = ratio * fs
+    const stepPx = widest * (CENTER_SCALE / 2 + 0.5) + 28 // neighbors start after the middle item ends
+    const Rc = Math.max(w * 1.6, 600)
+    return { layout, fs, stepPx, Rc, cx: w / 2, baseY: h * 0.5, w, h }
+  }
+  // Desktop: items stacked down the right side along a curve whose top and
+  // bottom bend toward the right edge (circle center is off-screen right).
+  const inset = clamp(w * 0.08, 20, 40)
+  const margin = 20
+  const Rc = Math.max(h * 0.75, 420)
+  const lineH = 1.25
+  let fs = 60
+  for (let i = 0; i < 3; i++) {
+    const stepPx = fs * lineH * CENTER_SCALE + 18
+    const y2 = Math.min(stepPx * 2, Rc - 1)
+    const shift2 = Rc - Math.sqrt(Rc * Rc - y2 * y2) // how far right the ±2 items move
+    const fitCenter = (w - inset - margin) / (ratio * CENTER_SCALE)
+    const fitEdge = (w - inset - margin - shift2) / ratio
+    const fitHeight = (h * 0.86) / (5 * lineH * CENTER_SCALE + 90 / fs) // 5 items visible
+    fs = clamp(Math.min(60, fitCenter, fitEdge, fitHeight), 20, 60)
+  }
+  const stepPx = fs * lineH * CENTER_SCALE + 18
+  return { layout, fs, stepPx, Rc, inset, cy: h / 2, w, h }
+}
 
-  const side = layout === 'side'
-  // side layout: positive angle = below the middle, so rotate the other way
+function placeItem(geo, o) {
+  // o = how many steps this item is away from the middle (can be fractional)
+  if (geo.layout === 'bottom') {
+    const dx = o * geo.stepPx
+    const ax = clamp(dx, -geo.Rc + 1, geo.Rc - 1)
+    const y = geo.baseY + (geo.Rc - Math.sqrt(geo.Rc * geo.Rc - ax * ax))
+    const tilt = (Math.asin(ax / geo.Rc) * 180) / Math.PI
+    return { x: geo.cx + dx, y, rotate: tilt }
+  }
+  const dy = o * geo.stepPx
+  const ay = clamp(dy, -geo.Rc + 1, geo.Rc - 1)
+  const x = geo.inset + (geo.Rc - Math.sqrt(geo.Rc * geo.Rc - ay * ay))
+  const tilt = (Math.asin(ay / geo.Rc) * 180) / Math.PI
+  return { x, y: geo.cy + dy, rotate: tilt * 0.35 }
+}
+
+function DialItem({ index, label, pos, geo, isCenter, onPick }) {
+  const offset = useTransform(pos, (p) => index - p)
+  const x = useTransform(offset, (o) => placeItem(geo, o).x)
+  const y = useTransform(offset, (o) => placeItem(geo, o).y)
+  const rotate = useTransform(offset, (o) => placeItem(geo, o).rotate)
+  const scale = useTransform(offset, (o) => 1 + (CENTER_SCALE - 1) * Math.max(0, 1 - Math.abs(o)))
+  const fade = geo.layout === 'bottom' ? 1.6 : 2.7
+  const opacity = useTransform(offset, (o) => clamp(1 - Math.abs(o) / fade, 0, 1) ** 1.2)
+
+  const side = geo.layout === 'side'
   return (
-    <motion.div className="dial-spoke" style={{ left: geo.cx, top: geo.cy, rotate: side ? negTheta : theta }}>
+    <motion.div className="dial-spoke" style={{ left: 0, top: 0, x, y, rotate }}>
       <motion.button
         type="button"
         className={`dial-item${isCenter ? ' is-center' : ''}`}
         style={{
-          left: side ? -geo.R : 0,
-          top: side ? 0 : -geo.R,
+          left: 0,
+          top: 0,
+          fontSize: geo.fs,
           x: side ? 0 : '-50%',
           y: '-50%',
           originX: side ? 0 : 0.5,
@@ -101,7 +156,8 @@ export default function Dial({ items, active, onSelect, layout }) {
   const N = items.length
   const panelRef = useRef(null)
   const { w, h } = useSize(panelRef)
-  const geo = geometry(layout, w, h)
+  const ratio = useLabelRatio(items)
+  const geo = geometry(layout, w, h, ratio)
 
   const pos = useMotionValue(active)
   const target = useRef(active)
@@ -176,7 +232,7 @@ export default function Dial({ items, active, onSelect, layout }) {
       pos.stop()
       panelRef.current?.setPointerCapture(d.id)
     }
-    if (d.moving) pos.set(d.start - delta / geo.pxPerItem)
+    if (d.moving) pos.set(d.start - delta / geo.stepPx)
   }
   const onPointerUp = () => {
     const d = drag.current
@@ -225,7 +281,6 @@ export default function Dial({ items, active, onSelect, layout }) {
             label={items[mod(k, N)]}
             pos={pos}
             geo={geo}
-            layout={layout}
             isCenter={k === center}
             onPick={pick}
           />

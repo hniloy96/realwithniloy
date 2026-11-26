@@ -1,12 +1,5 @@
 /* ───────── Colors & type ───────── */
 
-/* Dudu Calligraphy by Adderou (dafont.com, listed as 100% free) */
-@font-face {
-  font-family: "Dudu Calligraphy";
-  src: url("./assets/fonts/Dudu_Calligraphy.ttf") format("truetype");
-  font-display: swap;
-}
-
 :root {
   --bg: #0c0c0c;
   --bg-raised: #151514;
@@ -22,7 +15,7 @@
   --bg-rgb: 12 12 12;
   --shadow: rgba(0, 0, 0, 0.9);
   --grain: 0.07;
-  --hand: "Dudu Calligraphy", "Caveat", "Segoe Script", cursive;
+  --hand: "Ranade", Georgia, serif;
   --sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --dial-w: clamp(300px, 33vw, 500px);
   color-scheme: dark;
@@ -462,6 +455,7 @@ main {
   position: fixed;
   z-index: 5;
   overflow: hidden;
+  contain: layout paint;
   overscroll-behavior: contain;
   touch-action: none;
   user-select: none;
@@ -660,4 +654,28 @@ body {
 .theme-toggle svg {
   width: 20px;
   height: 20px;
+}
+
+/* Socials list on narrow phones: handle sits under the name so rows never overflow */
+@media (max-width: 520px) {
+  .social-link {
+    grid-template-columns: 1fr auto;
+    row-gap: 2px;
+  }
+
+  .social-link .muted {
+    grid-row: 2;
+    grid-column: 1;
+    font-size: 14px;
+  }
+
+  .social-link .arrow {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    align-self: center;
+  }
+}
+
+.social-name {
+  overflow-wrap: anywhere;
 }

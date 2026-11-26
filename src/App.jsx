@@ -9,6 +9,8 @@ import Contact from './components/Contact.jsx'
 import Socials from './components/Socials.jsx'
 import ThemeToggle from './components/ThemeToggle.jsx'
 
+const LABELS = SECTIONS.map((s) => s.label)
+
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
   useEffect(() => {
@@ -98,7 +100,7 @@ export default function App() {
         <Socials />
       </main>
       <Dial
-        items={SECTIONS.map((s) => s.label)}
+        items={LABELS}
         active={active}
         onSelect={goToSection}
         layout={isPhone ? 'bottom' : 'side'}
