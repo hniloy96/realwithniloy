@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'motion/react'
 import { HOME } from '../content.js'
-import Placeholder from './Placeholder.jsx'
 
 export default function Home({ onContact }) {
   const reduce = useReducedMotion()
@@ -19,6 +18,11 @@ export default function Home({ onContact }) {
   const textY = useTransform(sy, [-1, 1], [6, -6])
   const glowX = useTransform(sx, [-1, 1], ['20%', '80%'])
   const glowY = useTransform(sy, [-1, 1], ['15%', '85%'])
+  // the dot grids drift the opposite way to the photo, which gives depth
+  const dotsX = useTransform(sx, [-1, 1], [16, -16])
+  const dotsY = useTransform(sy, [-1, 1], [12, -12])
+  const frameX = useTransform(sx, [-1, 1], [-6, 6])
+  const frameY = useTransform(sy, [-1, 1], [-5, 5])
 
   useEffect(() => {
     if (reduce) return
@@ -75,17 +79,57 @@ export default function Home({ onContact }) {
         </motion.button>
       </motion.div>
 
-      <motion.div
-        className="portrait-wrap"
-        style={{ rotateX, rotateY, x: photoX, y: photoY }}
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <img className="portrait" src={HOME.portrait} alt="Portrait of Niloy (placeholder)" />
-        <motion.div className="portrait-glow" style={{ left: glowX, top: glowY }} />
-        <Placeholder>PLACEHOLDER PHOTO</Placeholder>
-      </motion.div>
+      <div className="portrait-stage">
+        <motion.div
+          className="dots dots-back"
+          style={{ x: dotsX, y: dotsY }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.6, delay: 0.5 }}
+          aria-hidden="true"
+        />
+        <motion.div
+          className="dots dots-corner"
+          style={{ x: dotsX, y: dotsY }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.6, delay: 0.8 }}
+          aria-hidden="true"
+        />
+        <motion.div
+          className="portrait-frame"
+          style={{ x: frameX, y: frameY }}
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.6 }}
+          aria-hidden="true"
+        />
+        <motion.div
+          className="portrait-wrap"
+          style={{ rotateX, rotateY, x: photoX, y: photoY }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <img className="portrait" src={HOME.portrait} alt="Niloy smiling, black and white portrait" />
+          <motion.div className="portrait-glow" style={{ left: glowX, top: glowY }} />
+          <span className="corner corner-tl" aria-hidden="true" />
+          <span className="corner corner-br" aria-hidden="true" />
+        </motion.div>
+        <motion.p
+          className="portrait-note"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
+          aria-hidden="true"
+        >
+          {HOME.portraitNote}
+          <svg viewBox="0 0 60 40" className="note-arrow">
+            <path d="M4 34 C 18 32, 34 24, 50 8" />
+            <path d="M38 8 L 51 7 L 49 20" />
+          </svg>
+        </motion.p>
+      </div>
     </section>
   )
 }

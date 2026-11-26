@@ -20,8 +20,9 @@ export const HOME = {
   message:
     "Buying or selling a home isn't paperwork. It's the kitchen where you'll learn to cook, the hallway your kids will race down, the door you'll walk through on your hardest and happiest days. I'm here to walk that road with you, honestly, one step at a time.",
   cta: 'Start a conversation',
-  // PLACEHOLDER image: swap for a real photo (any color photo turns black & white automatically)
-  portrait: '/placeholders/portrait.svg',
+  // Your photo (a web-sized copy of public/images/home_page_me.jpg). It is shown in black & white.
+  portrait: '/images/home_page_me_web.jpg',
+  portraitNote: "that's me, hi!",
 }
 
 // PLACEHOLDER reviews: replace with real client words (with their permission)

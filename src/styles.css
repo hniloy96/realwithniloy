@@ -22,6 +22,7 @@
   --bg-rgb: 12 12 12;
   --shadow: rgba(0, 0, 0, 0.9);
   --grain: 0.07;
+  --dot: rgba(236, 230, 220, 0.26);
   --hand: "Ranade", Georgia, serif; /* dial menu + names */
   --sans: "Ranade", system-ui, -apple-system, "Segoe UI", sans-serif; /* everything else */
   --script: "Dudu Calligraphy", "Segoe Script", cursive; /* yellow accent handwriting */
@@ -233,22 +234,140 @@ main {
   margin: 0 0 34px;
 }
 
-.portrait-wrap {
+/* The photo sits on a "stage" with layered dot grids and an offset frame */
+.portrait-stage {
   position: relative;
-  flex: 0 1 34%;
-  max-width: 400px;
+  flex: 0 1 31%;
+  width: 100%;
+  max-width: 370px;
   aspect-ratio: 4 / 5;
-  border-radius: 6px;
+  margin: 40px 36px 56px 0;
+}
+
+.dots {
+  position: absolute;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--dot) 1.3px, transparent 1.7px);
+  background-size: 15px 15px;
+}
+
+.dots-back {
+  width: 82%;
+  height: 74%;
+  right: -22%;
+  bottom: -16%;
+  -webkit-mask-image: radial-gradient(ellipse at 60% 60%, #000 35%, transparent 72%);
+  mask-image: radial-gradient(ellipse at 60% 60%, #000 35%, transparent 72%);
+}
+
+.dots-corner {
+  width: 38%;
+  height: 30%;
+  left: -16%;
+  top: -10%;
+  --dot: rgb(var(--glow-rgb) / 0.55);
+  -webkit-mask-image: linear-gradient(135deg, #000 30%, transparent 85%);
+  mask-image: linear-gradient(135deg, #000 30%, transparent 85%);
+}
+
+.portrait-frame {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: -20px;
+  bottom: -20px;
+  border: 1px solid rgb(var(--glow-rgb) / 0.45);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.portrait-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
   overflow: hidden;
+  background: #111;
   box-shadow: 0 40px 80px -30px var(--shadow);
   transform-style: preserve-3d;
+}
+
+/* soft vignette so the photo melts into the page */
+.portrait-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0, 0, 0, 0.35) 100%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent 35%);
+  pointer-events: none;
 }
 
 .portrait {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.08);
+  object-position: 50% 30%;
+  filter: grayscale(1) contrast(1.12) brightness(0.95);
+  transform: scale(1.02);
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), filter 1.2s ease;
+}
+
+.portrait-wrap:hover .portrait {
+  transform: scale(1.05);
+  filter: grayscale(1) contrast(1.18) brightness(1);
+}
+
+/* little viewfinder corners */
+.corner {
+  position: absolute;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(255, 255, 255, 0.7);
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+}
+
+.corner-tl {
+  top: 14px;
+  left: 14px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.corner-br {
+  right: 14px;
+  bottom: 14px;
+  border-right-width: 1.5px;
+  border-bottom-width: 1.5px;
+}
+
+.portrait-note {
+  position: absolute;
+  left: -18%;
+  bottom: -15%;
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  font-family: var(--script);
+  font-size: 26px;
+  line-height: 1;
+  color: var(--accent);
+  transform: rotate(-6deg);
+  white-space: nowrap;
+}
+
+.note-arrow {
+  width: 46px;
+  height: 32px;
+  margin-bottom: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .portrait-glow {
@@ -588,10 +707,22 @@ main {
     padding-top: 8vh;
   }
 
-  .portrait-wrap {
-    width: 46%;
+  .portrait-stage {
+    width: 50%;
     max-width: 220px;
     align-self: flex-start;
+    margin: 12px 0 52px 10px;
+  }
+
+  .portrait-note {
+    left: 58%;
+    bottom: -17%;
+    font-size: 22px;
+    flex-direction: row-reverse;
+  }
+
+  .note-arrow {
+    transform: scaleX(-1);
   }
 
   .about {
@@ -627,6 +758,7 @@ main {
   --bg-rgb: 243 238 230;
   --shadow: rgba(60, 45, 30, 0.35);
   --grain: 0.045;
+  --dot: rgba(30, 28, 25, 0.22);
   color-scheme: light;
 }
 
