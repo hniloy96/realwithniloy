@@ -30,7 +30,7 @@ export default function Contact() {
   return (
     <section id="contact" className="section contact">
       <Reveal>
-        <p className="hand eyebrow">get in touch</p>
+        <p className="hand eyebrow">contact</p>
         <h2 className="title">{CONTACT.title}</h2>
         <p className="body">{CONTACT.intro}</p>
       </Reveal>

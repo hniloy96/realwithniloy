@@ -9,7 +9,7 @@ export const SECTIONS = [
   { id: 'home', label: 'HOME' },
   { id: 'reviews', label: 'REVIEWS' },
   { id: 'about', label: 'ABOUT ME' },
-  { id: 'contact', label: 'GET IN TOUCH' },
+  { id: 'contact', label: 'CONTACT' },
   { id: 'socials', label: 'SOCIALS' },
 ]
 
