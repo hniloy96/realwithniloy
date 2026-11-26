@@ -8,7 +8,7 @@ import { animate, motion, useMotionValue, useTransform } from 'motion/react'
     to 0..4, it keeps counting (…, -1, 0, 1, 2, …) so the dial loops forever.
     Item k shows label items[k mod 5].
   - Every item is a "spoke" rotated around a circle center:
-      side   (desktop): center sits to the LEFT, so the arc bulges out to the right
+      side   (desktop): center sits off-screen to the RIGHT, so the ends bend right
       bottom (phone)  : center sits BELOW the screen, so the arc bulges upward
   - Mouse wheel over the dial moves exactly one item per notch and never
     scrolls the page. Dragging / swiping also spins it.
@@ -50,11 +50,13 @@ function geometry(layout, w, h) {
       pxPerItem: stepPx,
     }
   }
+  // Circle center sits off to the RIGHT of the screen, so the top and bottom
+  // items bend toward the right edge and the middle item sits furthest left.
   const R = clamp(h * 0.55, 280, 600)
   const stepPx = clamp(h * 0.135, 84, 128)
   return {
     R,
-    cx: w - 36 - R,
+    cx: clamp(w * 0.1, 24, 48) + R,
     cy: h / 2,
     step: (stepPx / R) * (180 / Math.PI),
     pxPerItem: stepPx,
@@ -66,19 +68,21 @@ function DialItem({ index, label, pos, geo, layout, isCenter, onPick }) {
   const closeness = useTransform(theta, (t) => Math.max(0, 1 - Math.abs(t) / geo.step))
   const opacity = useTransform(theta, (t) => clamp(1 - Math.abs(t) / (geo.step * 3.3), 0, 1) ** 1.3)
   const scale = useTransform(closeness, (c) => 1 + 0.28 * c)
+  const negTheta = useTransform(theta, (t) => -t)
 
   const side = layout === 'side'
+  // side layout: positive angle = below the middle, so rotate the other way
   return (
-    <motion.div className="dial-spoke" style={{ left: geo.cx, top: geo.cy, rotate: theta }}>
+    <motion.div className="dial-spoke" style={{ left: geo.cx, top: geo.cy, rotate: side ? negTheta : theta }}>
       <motion.button
         type="button"
         className={`dial-item${isCenter ? ' is-center' : ''}`}
         style={{
-          left: side ? geo.R : 0,
+          left: side ? -geo.R : 0,
           top: side ? 0 : -geo.R,
-          x: side ? '-100%' : '-50%',
+          x: side ? 0 : '-50%',
           y: '-50%',
-          originX: side ? 1 : 0.5,
+          originX: side ? 0 : 0.5,
           originY: 0.5,
           scale,
           opacity,

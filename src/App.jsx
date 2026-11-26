@@ -7,6 +7,7 @@ import Reviews from './components/Reviews.jsx'
 import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
 import Socials from './components/Socials.jsx'
+import ThemeToggle from './components/ThemeToggle.jsx'
 
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
@@ -88,6 +89,7 @@ export default function App() {
     <>
       <Spotlight />
       <div className="grain" aria-hidden="true" />
+      <ThemeToggle />
       <main className={isPhone ? 'layout-phone' : 'layout-desktop'}>
         <Home onContact={() => goToSection(3)} />
         <Reviews />
