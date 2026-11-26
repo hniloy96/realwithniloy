@@ -1,0 +1,587 @@
+/* ───────── Colors & type ───────── */
+:root {
+  --bg: #0c0c0c;
+  --bg-raised: #151514;
+  --line: #2a2926;
+  --text: #ece6dc;
+  --muted: #8d877d;
+  --accent: #e3c9a8; /* warm sand */
+  --hand: 'Caveat', 'Segoe Script', cursive;
+  --sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --dial-w: clamp(300px, 33vw, 500px);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--accent);
+  color: #111;
+}
+
+.hand {
+  font-family: var(--hand);
+  font-weight: 500;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 13px;
+}
+
+/* ───────── Atmosphere ───────── */
+.spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grain {
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ───────── Layout ───────── */
+main {
+  position: relative;
+  z-index: 2;
+}
+
+.layout-desktop {
+  margin-right: var(--dial-w);
+  padding-left: clamp(24px, 6vw, 96px);
+  padding-right: clamp(16px, 2vw, 32px);
+}
+
+.layout-phone {
+  padding: 0 22px 150px;
+}
+
+.section {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 14vh 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 30px;
+  margin: 0 0 6px;
+  line-height: 1;
+}
+
+.title {
+  font-size: clamp(30px, 3.6vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 0 0 28px;
+  max-width: 18ch;
+}
+
+.body {
+  color: #cfc8bc;
+  max-width: 60ch;
+  margin: 0 0 18px;
+}
+
+.cta {
+  align-self: flex-start;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--text);
+  color: #111;
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 26px;
+  font: 600 16px var(--sans);
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.cta:hover {
+  background: var(--accent);
+}
+
+.cta:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.ph-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  font: 700 10px/1 var(--sans);
+  letter-spacing: 0.14em;
+  color: #111;
+  background: #f2d36b;
+  padding: 6px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* ───────── Home ───────── */
+.home {
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  perspective: 1200px;
+}
+
+.home-text {
+  flex: 1 1 52%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hello {
+  font-size: clamp(30px, 2.8vw, 40px);
+  color: var(--accent);
+  margin: 0 0 10px;
+  line-height: 1;
+}
+
+.headline {
+  font-size: clamp(36px, 3.9vw, 66px);
+  text-wrap: balance;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 650;
+  margin: 0 0 28px;
+}
+
+.headline-line {
+  display: block;
+}
+
+.headline-line:nth-child(2) {
+  color: var(--muted);
+}
+
+.lede {
+  font-size: clamp(16px, 1.25vw, 19px);
+  color: #cfc8bc;
+  max-width: 52ch;
+  margin: 0 0 34px;
+}
+
+.portrait-wrap {
+  position: relative;
+  flex: 0 1 34%;
+  max-width: 400px;
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.9);
+  transform-style: preserve-3d;
+}
+
+.portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.08);
+}
+
+.portrait-glow {
+  position: absolute;
+  width: 70%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 65%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* ───────── Reviews ───────── */
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.review-card {
+  position: relative;
+  margin: 0;
+  padding: 44px 28px 28px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-mark {
+  font-family: Georgia, serif;
+  font-size: 80px;
+  line-height: 0.6;
+  color: var(--accent);
+  opacity: 0.7;
+  margin-bottom: 8px;
+}
+
+.review-card blockquote {
+  margin: 0 0 22px;
+  color: #ddd6ca;
+  flex: 1;
+}
+
+.review-card figcaption {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.reviewer {
+  font-size: 28px;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+/* ───────── About ───────── */
+.about {
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(28px, 5vw, 80px);
+}
+
+.about-photo {
+  position: relative;
+  flex: 0 1 42%;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.about-photo img {
+  width: 100%;
+  filter: grayscale(1);
+}
+
+.about-text {
+  flex: 1 1 58%;
+}
+
+.facts {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+  margin: 22px 0 14px;
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.fact-value {
+  font-size: 46px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* ───────── Contact ───────── */
+.contact-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 40px;
+  margin-top: 12px;
+}
+
+.contact-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.contact-form .full {
+  grid-column: 1 / -1;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  font: 16px var(--sans);
+  color: var(--text);
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: var(--accent);
+}
+
+.form-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  min-height: 1.5em;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.contact-direct {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.contact-direct .hand {
+  font-size: 28px;
+  color: var(--accent);
+  margin: 0 0 4px;
+}
+
+.contact-direct a {
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.contact-direct a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ───────── Socials ───────── */
+.social-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  border-top: 1px solid var(--line);
+}
+
+.social-link {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  gap: 18px;
+  padding: 16px 4px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  transition: padding 0.3s, color 0.3s;
+}
+
+.social-link:hover {
+  padding-left: 14px;
+  color: var(--accent);
+}
+
+.social-name {
+  font-size: clamp(34px, 3.4vw, 48px);
+  line-height: 1;
+}
+
+.arrow {
+  font-size: 22px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 64px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ───────── The dial ───────── */
+.dial {
+  position: fixed;
+  z-index: 5;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dial--side {
+  top: 0;
+  right: 0;
+  width: var(--dial-w);
+  height: 100vh;
+  height: 100dvh;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+}
+
+.dial--bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 128px;
+  background: linear-gradient(to bottom, rgba(12, 12, 12, 0), rgba(12, 12, 12, 0.94) 30%, #0c0c0c 55%);
+}
+
+.dial-spoke {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.dial-item {
+  position: absolute;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  padding: 0.05em 0.12em;
+  margin: 0;
+  font-family: var(--hand);
+  font-weight: 500;
+  font-size: clamp(38px, 3.6vw, 60px);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: #6f6a62;
+  cursor: pointer;
+  transition: color 0.35s, text-shadow 0.35s;
+}
+
+.dial--bottom .dial-item {
+  font-size: 34px;
+}
+
+.dial-item.is-center {
+  color: var(--text);
+  font-weight: 700;
+  text-shadow: 0 0 28px rgba(227, 201, 168, 0.35);
+}
+
+.dial-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* hover = underline only (no full highlight) */
+.dial-label {
+  position: relative;
+  display: inline-block;
+}
+
+.dial-label::after {
+  content: '';
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  bottom: 0.08em;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+@media (hover: hover) {
+  .dial-item:hover .dial-label::after {
+    transform: scaleX(1);
+  }
+}
+
+.dial-hint {
+  position: absolute;
+  right: 40px;
+  bottom: 9vh;
+  font: 500 11px var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4d4943;
+  pointer-events: none;
+}
+
+.dial--bottom .dial-hint {
+  display: none;
+}
+
+/* ───────── Phone ───────── */
+@media (max-width: 860px) {
+  .section {
+    padding: 12vh 0 8vh;
+  }
+
+  .home {
+    flex-direction: column-reverse;
+    justify-content: center;
+    gap: 28px;
+    padding-top: 8vh;
+  }
+
+  .portrait-wrap {
+    width: 46%;
+    max-width: 220px;
+    align-self: flex-start;
+  }
+
+  .about {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact-wrap,
+  .contact-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
