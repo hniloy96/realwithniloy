@@ -40,23 +40,26 @@ function useSize(ref) {
   return size
 }
 
-// Size by position: middle = 100%, next out = 75%, the ones after = 50%,
-// changing smoothly in between while the dial turns.
-const SIZE_STEP = 0.25
-const MIN_SIZE = 0.3
-const sizeAt = (o) => Math.max(MIN_SIZE, 1 - SIZE_STEP * Math.abs(o))
-const UMAX = (1 - MIN_SIZE) / SIZE_STEP // offset where items stop shrinking
+// Size by position: middle = 100%, next out = 50%, the ones after = 25%
+// (halving each step), changing smoothly in between while the dial turns.
+const MIN_SIZE = 0.1
+const sizeAt = (o) => Math.max(MIN_SIZE, 0.5 ** Math.abs(o))
+// Blur by position: fully sharp in the middle, 75% clarity next, then 50%.
+const blurAt = (o) => Math.min(0.75, 0.25 * Math.abs(o))
 
-// Distance along the curve from the middle to an item at offset o, when each
-// item needs room proportional to its own size (+ a fixed gap). Neighbours
-// are always exactly far enough apart to never touch.
+// Distance along the curve from the middle to an item at offset o. Between two
+// neighbouring resting spots the gap is half of each item's size (+ a fixed
+// gap), so neighbours never touch; in between it blends smoothly.
 function distAt(o, unit, gap) {
   const u = Math.abs(o)
-  const k = Math.min(u, UMAX)
-  const shrinking = unit * (k - (SIZE_STEP / 2) * k * k) + gap * k
-  const rest = (unit * MIN_SIZE + gap) * Math.max(0, u - UMAX)
-  return Math.sign(o) * (shrinking + rest)
+  const n = Math.floor(u)
+  let d = 0
+  for (let j = 0; j < n; j++) d += (unit * (sizeAt(j) + sizeAt(j + 1))) / 2 + gap
+  const f = u - n
+  d += f * ((unit * (sizeAt(n) + sizeAt(n + 1))) / 2 + gap)
+  return Math.sign(o) * d
 }
+
 const PAD_EM = 0.3 // button padding + letter spacing allowance, in em
 
 // Width of each label as a multiple of the font size (measured with the real
@@ -100,7 +103,7 @@ function geometry(layout, w, h, { ratio, widths }) {
       const side = Math.max(widths[mod(c - 1, n)], widths[mod(c + 1, n)])
       need = Math.max(need, widths[c] / 2 + sizeAt(1) * side)
     }
-    const fs = clamp((w * 0.47 - gap) / need, 12, 30)
+    const fs = clamp((w * 0.47 - gap) / need, 12, 34)
     const Rc = Math.max(w * 1.8, 600)
     return { layout, fs, widths, gap, Rc, cx: w / 2, baseY: h * 0.55, w, h }
   }
@@ -167,7 +170,7 @@ function DialItem({ index, label, pos, geo, isCenter, onPick }) {
   const scale = useTransform(offset, sizeAt)
   // Blur follows the size: sharp in the middle, softer further out
   const blurMax = Math.max(geo.fs * 0.1, 3)
-  const filter = useTransform(offset, (o) => `blur(${((1 - sizeAt(o)) * blurMax).toFixed(2)}px)`)
+  const filter = useTransform(offset, (o) => `blur(${(blurAt(o) * blurMax).toFixed(2)}px)`)
   const fade = geo.layout === 'bottom' ? 2.4 : 2.7
   const opacity = useTransform(offset, (o) => clamp(1 - Math.abs(o) / fade, 0, 1) ** 1.2)
 
@@ -279,7 +282,7 @@ export default function Dial({ items, active, onSelect, layout }) {
       pos.stop()
       panelRef.current?.setPointerCapture(d.id)
     }
-    if (d.moving) pos.set(d.start - delta / (layout === 'bottom' ? geo.fs * 4.5 + geo.gap : geo.unit * 0.875 + geo.gap))
+    if (d.moving) pos.set(d.start - delta / (layout === 'bottom' ? geo.fs * 3.5 + geo.gap : geo.unit * 0.875 + geo.gap))
   }
   const onPointerUp = () => {
     const d = drag.current

@@ -827,3 +827,10 @@ body {
 .social-name {
   overflow-wrap: anywhere;
 }
+
+/* Phones have no hover, so the middle item keeps an underline. It draws in
+   each time a new item reaches the middle and stays until the next change. */
+.dial--bottom .dial-item.is-center .dial-label::after {
+  transform: scaleX(1);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
