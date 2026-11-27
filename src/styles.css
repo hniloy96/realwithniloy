@@ -1337,6 +1337,7 @@ body {
 .footer-logos {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* brokerage logo left, Equal Housing logo right */
   gap: 22px;
 }
 
