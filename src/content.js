@@ -97,3 +97,19 @@ export const FAIR_HOUSING = {
   label: 'Fair Housing Notice',
   url: 'https://dos.ny.gov/system/files/documents/2025/03/nys-housing-and-anti-discrimination-notice_02.2025.pdf',
 }
+
+// Footer at the very bottom of the page
+export const FOOTER = {
+  companyLogo: '/images/company_logo.jpg',
+  brokerageUrl: 'https://easternprimerealty.com/',
+  // Paste the Standard Operating Procedure link here when you have it
+  sopUrl: '',
+  info: [
+    'Name: Hamim Niloy',
+    'Licensed Real Estate Salesperson',
+    'NY Lic #10401403188',
+    'Eastern Prime Realty',
+    '120 Washington Ave, Endicott, NY 13760',
+    'Cell: 917-943-4863',
+  ],
+}

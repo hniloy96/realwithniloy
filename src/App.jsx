@@ -9,6 +9,7 @@ import Contact from './components/Contact.jsx'
 import Socials from './components/Socials.jsx'
 import ThemeToggle from './components/ThemeToggle.jsx'
 import Logo from './components/Logo.jsx'
+import SiteFooter from './components/SiteFooter.jsx'
 
 const LABELS = SECTIONS.map((s) => s.label)
 
@@ -103,6 +104,7 @@ export default function App() {
         <About />
         <Contact />
         <Socials />
+        <SiteFooter />
       </main>
       <Dial
         items={LABELS}

@@ -1230,3 +1230,96 @@ body {
     flex: 0 0 auto;
   }
 }
+
+/* ───────── Brokerage footer (very bottom) ───────── */
+.site-footer {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--line);
+  padding: 44px 0 56px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.footer-logo {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #fdfcfa; /* the logo has a white background, so it sits on a light tile in both themes */
+  box-shadow: 0 6px 20px -10px var(--shadow);
+  transition: transform 0.25s;
+}
+
+.footer-logo:hover {
+  transform: translateY(-2px);
+}
+
+.footer-logo img {
+  display: block;
+  height: 72px;
+  width: auto;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin: 22px 0 10px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.footer-links a {
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-sep {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.footer-info {
+  margin: 0;
+  color: var(--body);
+}
+
+.footer-info span {
+  display: inline-block;
+  white-space: nowrap; /* each detail wraps as a whole piece */
+}
+
+.footer-info span:not(:last-child)::after {
+  content: "|";
+  margin: 0 6px 0 2px;
+  color: var(--accent);
+}
+
+.footer-copy {
+  margin: 14px 0 0;
+  font-size: 12px;
+}
+
+@media (max-width: 860px) {
+  .site-footer {
+    padding: 36px 0 24px;
+  }
+
+  .footer-logo img {
+    height: 60px;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer-info span {
+    display: inline;
+    white-space: normal;
+  }
+}

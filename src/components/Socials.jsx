@@ -21,10 +21,6 @@ export default function Socials() {
           </Reveal>
         ))}
       </ul>
-      <footer className="footer">
-        <span>&copy; {new Date().getFullYear()} Niloy</span>
-        <span>realwithniloy.com</span>
-      </footer>
       </Drift>
     </section>
   )
