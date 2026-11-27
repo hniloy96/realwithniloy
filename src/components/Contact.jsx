@@ -44,7 +44,11 @@ export default function Contact() {
             <span>Email</span>
             <input name="email" type="email" required autoComplete="email" />
           </label>
-          <label className="full">
+          <label>
+            <span>Phone</span>
+            <input name="phone" type="tel" required autoComplete="tel" inputMode="tel" />
+          </label>
+          <label>
             <span>I&rsquo;m thinking about&hellip;</span>
             <select name="interest" defaultValue="Buying">
               <option>Buying</option>
@@ -69,11 +73,17 @@ export default function Contact() {
         </form>
         <aside className="contact-direct">
           <p className="hand">or reach me directly</p>
-          <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
-          <a href={`tel:+1${CONTACT.phone.replace(/[^\d]/g, '')}`}>{CONTACT.phone}</a>
-          <div className="contact-office">
-            <span className="office-company">{CONTACT.company}</span>
+          <div className="contact-group">
+            <span className="muted small">Email</span>
+            <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+          </div>
+          <div className="contact-group">
+            <span className="muted small">Cell</span>
+            <a href={`tel:+1${CONTACT.phone.replace(/[^\d]/g, '')}`}>{CONTACT.phone}</a>
+          </div>
+          <div className="contact-group">
             <span className="muted small">Office</span>
+            <span className="office-company">{CONTACT.company}</span>
             <a
               className="contact-address"
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.address.join(', '))}`}
