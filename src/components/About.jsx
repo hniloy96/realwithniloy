@@ -2,12 +2,13 @@ import { ABOUT } from '../content.js'
 import Reveal from './Reveal.jsx'
 import Drift from './Drift.jsx'
 import Vines from './Vines.jsx'
-import HobbyMorph from './HobbyMorph.jsx'
+import HobbyMorph, { useHobbyCycle } from './HobbyMorph.jsx'
 
 export default function About() {
+  const hobby = useHobbyCycle()
   return (
     <section id="about" className="section about">
-      <HobbyMorph />
+      <HobbyMorph index={hobby} spot="corner" />
       <div className="about-photo-stage">
         {/* the vines and the photo drift by different amounts, so they feel like separate layers */}
         <Drift amount={-16} className="vines-layer">
@@ -36,6 +37,7 @@ export default function About() {
               <span className="muted">{f.label}</span>
             </div>
           ))}
+          <HobbyMorph index={hobby} spot="stats" />
         </Reveal>
       </Drift>
     </section>

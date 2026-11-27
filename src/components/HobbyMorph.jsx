@@ -80,7 +80,8 @@ function Coffee() {
 
 const ITEMS = [MidiKeyboard, ComputerKeyboard, Coffee]
 
-export default function HobbyMorph() {
+// Picks which drawing is showing and changes it at random every few seconds.
+export function useHobbyCycle() {
   const reduce = useReducedMotion()
   const [index, setIndex] = useState(0)
 
@@ -101,22 +102,33 @@ export default function HobbyMorph() {
     return () => clearTimeout(timer)
   }, [reduce])
 
+  return index
+}
+
+// Where each drawing appears: the computer keyboard sits in the upper right of
+// the section; the MIDI keyboard and the coffee cup share a spot beside the stats.
+export const SPOTS = { corner: [1], stats: [0, 2] }
+
+export default function HobbyMorph({ index, spot, className = '' }) {
+  const reduce = useReducedMotion()
+  const visible = SPOTS[spot].includes(index)
   const Item = ITEMS[index]
-  // each drawing has its own spot in the section (see .hobby-pos-* in styles.css)
   return (
     <AnimatePresence mode="wait">
-      <motion.div
-        key={index}
-        className={`hobby-morph hobby-pos-${index}`}
-        initial={reduce ? 'show' : 'hidden'}
-        animate="show"
-        exit="exit"
-        aria-hidden="true"
-      >
-        <svg viewBox="0 0 200 150">
-          <Item />
-        </svg>
-      </motion.div>
+      {visible && (
+        <motion.div
+          key={index}
+          className={`hobby-morph hobby-${spot} ${className}`}
+          initial={reduce ? 'show' : 'hidden'}
+          animate="show"
+          exit="exit"
+          aria-hidden="true"
+        >
+          <svg viewBox="0 0 200 150">
+            <Item />
+          </svg>
+        </motion.div>
+      )}
     </AnimatePresence>
   )
 }

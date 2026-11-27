@@ -522,46 +522,38 @@ main {
   opacity: 0.1;
 }
 
-/* MIDI keyboard: lower right */
-.hobby-pos-0 {
-  right: 0;
-  bottom: 6%;
-}
-
-/* computer keyboard: upper right, above the heading */
-.hobby-pos-1 {
+/* computer keyboard: upper right of the About section */
+.hobby-corner {
   right: 4%;
   top: 4%;
   width: min(360px, 34%);
 }
 
-/* coffee: upper left, above the photo */
-.hobby-pos-2 {
-  left: 1%;
-  top: 5%;
-  width: min(240px, 24%);
+/* MIDI keyboard and coffee cup: share a spot right beside the 24h stat */
+.hobby-stats {
+  position: relative;
+  flex: 0 1 104px;
+  min-width: 72px;
+  width: auto;
+  align-self: center;
+  opacity: 0.16;
+  margin-left: -6px;
+}
+
+[data-theme='light'] .hobby-stats {
+  opacity: 0.2;
 }
 
 @media (max-width: 860px) {
-  .hobby-pos-0 {
-    right: -6%;
-    bottom: 4%;
-    width: 80%;
-  }
-
-  .hobby-pos-1 {
+  .hobby-corner {
     right: auto;
     left: -6%;
     top: 38%;
     width: 76%;
   }
 
-  .hobby-pos-2 {
-    left: auto;
-    right: 0;
-    bottom: auto;
-    top: 2%;
-    width: 46%;
+  .hobby-stats {
+    width: 96px;
   }
 }
 
@@ -1177,5 +1169,18 @@ body {
   .fair-housing {
     font-size: 10.5px;
     padding: 0 10px;
+  }
+}
+
+/* keep the stats and the little sketch on one row on wider screens */
+@media (min-width: 861px) {
+  .facts {
+    flex-wrap: nowrap;
+    gap: 30px;
+  }
+
+  .fact {
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 }
