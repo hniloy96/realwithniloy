@@ -41,7 +41,7 @@ export const REVIEWS = [
   },
   {
     quote:
-      'Straight talk, no pressure. He told us when a place wasn’t right, even when it meant more weekends of searching. That’s why we trust him.',
+      'Straight talk, no pressure. Niloy told us when a place wasn’t right, even when it meant more weekends of searching. That’s why we trust Niloy.',
     name: 'Client name',
     detail: 'Relocated across town',
   },
