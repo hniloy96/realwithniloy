@@ -8,6 +8,7 @@ import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
 import Socials from './components/Socials.jsx'
 import ThemeToggle from './components/ThemeToggle.jsx'
+import Logo from './components/Logo.jsx'
 
 const LABELS = SECTIONS.map((s) => s.label)
 
@@ -91,6 +92,7 @@ export default function App() {
     <>
       <Spotlight />
       <div className="grain" aria-hidden="true" />
+      <Logo onClick={() => goToSection(0)} />
       <ThemeToggle />
       <main className={isPhone ? 'layout-phone' : 'layout-desktop'}>
         <Home onContact={() => goToSection(3)} />
