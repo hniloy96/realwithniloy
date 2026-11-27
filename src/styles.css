@@ -866,6 +866,7 @@ body {
 .office-company {
   font-weight: 500;
   font-size: 18px;
+  color: var(--accent);
 }
 
 .contact-address {
