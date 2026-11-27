@@ -23,9 +23,15 @@ export default function SiteFooter() {
         </a>
       </nav>
       <p className="footer-info">
-        {FOOTER.info.map((item) => (
-          <span key={item}>{item} </span>
-        ))}
+        {FOOTER.info.map((item) =>
+          typeof item === 'string' ? (
+            <span key={item}>{item} </span>
+          ) : (
+            <span key={item.label}>
+              {item.label}: <a href={`tel:+1${item.phone.replace(/[^\d]/g, '')}`}>{item.phone}</a>{' '}
+            </span>
+          ),
+        )}
       </p>
       <p className="footer-copy">
         &copy; {new Date().getFullYear()} Hamim Niloy · realwithniloy.com

@@ -110,6 +110,8 @@ export const FOOTER = {
     'NY Lic #10401403188',
     'Eastern Prime Realty',
     '120 Washington Ave, Endicott, NY 13760',
-    'Cell: 917-943-4863',
+    // items with a phone number become tap-to-call links
+    { label: 'Office', phone: '929-372-2611' },
+    { label: 'Cell', phone: '917-943-4863' },
   ],
 }

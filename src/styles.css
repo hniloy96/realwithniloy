@@ -1323,3 +1323,13 @@ body {
     white-space: normal;
   }
 }
+
+.footer-info a {
+  text-decoration: none;
+}
+
+.footer-info a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
