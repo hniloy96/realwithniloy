@@ -1,6 +1,5 @@
 import { REVIEWS } from '../content.js'
 import Reveal from './Reveal.jsx'
-import Placeholder from './Placeholder.jsx'
 
 export default function Reviews() {
   return (
@@ -18,7 +17,6 @@ export default function Reviews() {
               <span className="hand reviewer">{r.name}</span>
               <span className="muted">{r.detail}</span>
             </figcaption>
-            <Placeholder />
           </Reveal>
         ))}
       </div>

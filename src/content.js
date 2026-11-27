@@ -25,25 +25,25 @@ export const HOME = {
   portraitNote: "that's me, hi!",
 }
 
-// PLACEHOLDER reviews: replace with real client words (with their permission)
+// Client reviews (shared with permission)
 export const REVIEWS = [
   {
     quote:
-      'We were first-time buyers and terrified. Niloy never rushed us, never made us feel silly for asking. When we got the keys, Niloy was almost as excited as we were.',
-    name: 'Client name',
-    detail: 'First home, 2025',
+      'After letting down experiences with other agents while looking for a second home, we didn’t know what to expect. Working with Niloy showed us that buying a second property shouldn’t feel stressful or rushed. He listened to every single thought and question we had and gave us space to talk things through properly. We finally felt supported and confident every step of the way.',
+    name: 'Amena Rahman Poly & Anisur Rahman Dipu',
+    detail: 'Second-Home Buyers',
   },
   {
     quote:
-      'Selling my mom’s house was emotional. Niloy treated it with so much care and handled every detail so I could just be present for my family.',
-    name: 'Client name',
-    detail: 'Sold a family home',
+      'As a first-time buyer, I didn’t even know where to start. Niloy walked me through every single step without ever making me feel rushed or in the dark. I’d call him multiple times a day to go over every detail, and he always picked up and broke things down clearly. Having someone that patient and reliable made a huge difference.',
+    name: 'Ruman Ahmad',
+    detail: 'First-Time Homebuyer',
   },
   {
     quote:
-      'Straight talk, no pressure. Niloy told us when a place wasn’t right, even when it meant more weekends of searching. That’s why we trust Niloy.',
-    name: 'Client name',
-    detail: 'Relocated across town',
+      'Finding investment properties can get hectic fast when the market shifts day by day. Niloy kept things clear and steady at every step, giving me straight numbers and honest takes instead of sales fluff. What could have been a stressful process felt organized and manageable from start to finish.',
+    name: 'Kamrul Wadud',
+    detail: 'Real Estate Investor',
   },
 ]
 
