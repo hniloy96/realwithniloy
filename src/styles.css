@@ -441,10 +441,41 @@ main {
   gap: clamp(28px, 5vw, 80px);
 }
 
+.about-left {
+  position: relative;
+  flex: 0 1 36%;
+  z-index: 1;
+}
+
 .about-photo-stage {
   position: relative;
-  flex: 0 1 42%;
-  z-index: 1;
+}
+
+/* name, title and license under the photo */
+.credentials {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 22px;
+  line-height: 1.45;
+}
+
+.cred-name {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.cred-title {
+  font-size: 15px;
+  color: var(--body);
+}
+
+.cred-company {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
 }
 
 .about-photo {
@@ -644,7 +675,7 @@ main {
 
 /* phones: a narrower photo, centered, so the vines have room around it */
 @media (max-width: 860px) {
-  .about-photo-stage {
+  .about-left {
     width: 72%;
     max-width: 320px;
     align-self: center;

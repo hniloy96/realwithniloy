@@ -57,6 +57,14 @@ export const ABOUT = {
   ],
   // A web-sized copy of photos-originals/about me picture.jpg (shown in black & white)
   photo: '/images/about_me_web.jpg',
+  // shown under the photo
+  credentials: {
+    name: 'Hamim Niloy',
+    title: 'Real Estate Salesperson',
+    license: 'License No: #10401403188',
+    company: 'Eastern Prime Realty',
+    address: '120 Washington Ave, Endicott, NY 13760', // keeps NY and the zip together
+  },
   facts: [
     { value: '15+ years', label: 'in the neighborhood' },
     { value: '24h', label: 'reply time, always' },

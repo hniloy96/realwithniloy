@@ -9,14 +9,25 @@ export default function About() {
   return (
     <section id="about" className="section about">
       <HobbyMorph index={hobby} spot="corner" />
-      <div className="about-photo-stage">
-        {/* the vines and the photo drift by different amounts, so they feel like separate layers */}
-        <Drift amount={-16} className="vines-layer">
-          <Vines />
-        </Drift>
+      <div className="about-left">
+        <div className="about-photo-stage">
+          {/* the vines and the photo drift by different amounts, so they feel like separate layers */}
+          <Drift amount={-16} className="vines-layer">
+            <Vines />
+          </Drift>
+          <Drift amount={-6}>
+            <Reveal className="about-photo">
+              <img src={ABOUT.photo} alt="Niloy smiling, black and white photo" loading="lazy" />
+            </Reveal>
+          </Drift>
+        </div>
         <Drift amount={-6}>
-          <Reveal className="about-photo">
-            <img src={ABOUT.photo} alt="Niloy smiling, black and white photo" loading="lazy" />
+          <Reveal delay={0.15} className="credentials">
+            <span className="cred-name">{ABOUT.credentials.name}</span>
+            <span className="cred-title">{ABOUT.credentials.title}</span>
+            <span className="muted small">{ABOUT.credentials.license}</span>
+            <span className="cred-company">{ABOUT.credentials.company}</span>
+            <span className="muted small">{ABOUT.credentials.address}</span>
           </Reveal>
         </Drift>
       </div>
