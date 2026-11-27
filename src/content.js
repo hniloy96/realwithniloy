@@ -59,7 +59,7 @@ export const ABOUT = {
   photo: '/images/about_me_web.jpg',
   // shown under the photo
   credentials: {
-    name: 'Hamim Niloy',
+    name: 'Hamim Niloy, REALTOR®',
     title: 'Real Estate Salesperson',
     license: 'License No: #10401403188',
     company: 'Eastern Prime Realty',
@@ -105,7 +105,7 @@ export const FOOTER = {
   // Paste the Standard Operating Procedure link here when you have it
   sopUrl: '',
   info: [
-    'Name: Hamim Niloy',
+    'Name: Hamim Niloy, REALTOR®', // REALTOR® always with the ® and attached to the name (NAR rule)
     'Licensed Real Estate Salesperson',
     'NY Lic #10401403188',
     'Eastern Prime Realty',
