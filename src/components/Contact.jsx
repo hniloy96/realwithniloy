@@ -80,8 +80,12 @@ export default function Contact() {
           <button type="submit" className="cta" disabled={status === 'sending'}>
             {status === 'sending' ? 'Sending…' : 'Send message'} <span aria-hidden="true">&rarr;</span>
           </button>
-          <p className="form-status" role="status">
-            {status === 'sent' && 'Thank you. I’ll get back to you soon.'}
+          <p className={`form-status${status === 'sent' ? ' is-sent' : ''}`} role="status">
+            {status === 'sent' && (
+              <>
+                <strong>Message sent!</strong> Thank you, I&rsquo;ll get back to you soon.
+              </>
+            )}
             {status === 'error' && (errorText || 'Something went wrong. Please try again, or email or call me directly.')}
             {status === 'offline' &&
               'The form isn’t connected yet. Please email or call me directly for now.'}

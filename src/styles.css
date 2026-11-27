@@ -1627,3 +1627,27 @@ body {
     text-align: center;
   }
 }
+
+/* success confirmation right under the Send button */
+.form-status.is-sent {
+  font-size: 15px;
+  color: var(--text);
+  animation: sent-in 0.5s ease both;
+}
+
+.form-status.is-sent strong {
+  color: var(--accent);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+@keyframes sent-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
