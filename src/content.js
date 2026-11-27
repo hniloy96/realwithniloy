@@ -47,18 +47,18 @@ export const REVIEWS = [
   },
 ]
 
-// PLACEHOLDER story
+// Your story
 export const ABOUT = {
   title: 'Real, the way it should be.',
   paragraphs: [
-    'I got into real estate because I remember what it felt like when my own family found a place to call home. The relief. The hope. The feeling that life could finally settle in.',
-    "Today I help people find that feeling for themselves. I'll give you the truth, even when it's not what you want to hear, and I'll treat your move like it's my own family's.",
-    'When I’m not touring homes, you’ll find me exploring neighborhood coffee spots, ... (add your own details here).',
+    'I remember how much it meant when my family finally found a place that felt like home—that sense of relief, hope, and being able to exhale. That’s why I do this.',
+    'Buying a home is a massive decision, and it can get overwhelming fast. I’m not here to be just another agent in a suit chasing a commission. I’m here to bring real knowledge, help you navigate the stress of the process, and give you honest advice even when it’s tough to hear. I treat every move like it’s my family’s, and even long after closing day, I want you to feel like you gained a friend you can trust.',
+    'When I’m not helping clients or in the neighborhood, you’ll find me coding fun projects as a software engineer, making music, and spending time with family.',
   ],
-  photo: '/placeholders/about.svg',
+  // A web-sized copy of photos-originals/about me picture.jpg (shown in black & white)
+  photo: '/images/about_me_web.jpg',
   facts: [
-    { value: '00+', label: 'families helped' },
-    { value: '0 yrs', label: 'in the neighborhood' },
+    { value: '15+ years', label: 'in the neighborhood' },
     { value: '24h', label: 'reply time, always' },
   ],
 }

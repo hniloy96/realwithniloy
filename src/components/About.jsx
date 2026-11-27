@@ -1,13 +1,11 @@
 import { ABOUT } from '../content.js'
 import Reveal from './Reveal.jsx'
-import Placeholder from './Placeholder.jsx'
 
 export default function About() {
   return (
     <section id="about" className="section about">
       <Reveal className="about-photo">
-        <img src={ABOUT.photo} alt="Niloy (placeholder photo)" />
-        <Placeholder>PLACEHOLDER PHOTO</Placeholder>
+        <img src={ABOUT.photo} alt="Niloy smiling, black and white photo" loading="lazy" />
       </Reveal>
       <div className="about-text">
         <Reveal>
@@ -27,7 +25,6 @@ export default function About() {
             </div>
           ))}
         </Reveal>
-        <p className="muted small">Story and numbers above are placeholders.</p>
       </div>
     </section>
   )

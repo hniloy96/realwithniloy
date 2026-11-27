@@ -443,7 +443,17 @@ main {
 
 .about-photo img {
   width: 100%;
-  filter: grayscale(1);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 40% 30%;
+  filter: grayscale(1) contrast(1.08);
+}
+
+/* phones: the wide photo fits nicely as-is */
+@media (max-width: 860px) {
+  .about-photo img {
+    aspect-ratio: auto;
+  }
 }
 
 .about-text {
