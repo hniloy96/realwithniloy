@@ -71,17 +71,20 @@ export default function Contact() {
           <p className="hand">or reach me directly</p>
           <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
           <a href={`tel:+1${CONTACT.phone.replace(/[^\d]/g, '')}`}>{CONTACT.phone}</a>
-          <a
-            className="contact-address"
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.address.join(', '))}`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <div className="contact-office">
+            <span className="office-company">{CONTACT.company}</span>
             <span className="muted small">Office</span>
-            {CONTACT.address.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </a>
+            <a
+              className="contact-address"
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.address.join(', '))}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {CONTACT.address.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </a>
+          </div>
         </aside>
       </Reveal>
     </section>

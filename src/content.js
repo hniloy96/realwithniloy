@@ -73,6 +73,7 @@ export const CONTACT = {
   // Your contact details
   email: 'niloy@easternprimerealty.com',
   phone: '917-943-4863',
+  company: 'Eastern Prime Realty',
   address: ['120 Washington Ave', 'Endicott, NY 13760'],
 }
 

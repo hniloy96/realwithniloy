@@ -856,9 +856,19 @@ body {
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
 }
 
+.contact-office {
+  display: flex;
+  flex-direction: column;
+  margin-top: 14px;
+  line-height: 1.4;
+}
+
+.office-company {
+  font-weight: 500;
+  font-size: 18px;
+}
+
 .contact-address {
   display: flex;
   flex-direction: column;
-  margin-top: 12px;
-  line-height: 1.4;
 }
