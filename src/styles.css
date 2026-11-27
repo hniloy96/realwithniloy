@@ -1605,3 +1605,25 @@ body {
     line-height: 1.15;
   }
 }
+
+/* ───────── Phones: photos centered ───────── */
+@media (max-width: 860px) {
+  /* home portrait (with its frame, dot grids and note) sits in the middle */
+  .portrait-stage {
+    align-self: center;
+    margin: 12px auto 64px;
+  }
+
+  /* "that's me, hi!" note centered under the photo, arrow pointing up at it */
+  .portrait-note {
+    left: 50%;
+    bottom: -20%;
+    translate: -50% 0;
+  }
+
+  /* About Me: photo already centered; center its details too */
+  .credentials {
+    align-items: center;
+    text-align: center;
+  }
+}
