@@ -1379,3 +1379,172 @@ body {
     height: 74px;
   }
 }
+
+/* ───────── Top bar (pinned) ─────────
+   Left: HN logo + name. Right: theme button, Fair Housing Notice, brokerage. */
+.topbar {
+  position: fixed;
+  top: 20px;
+  left: 22px;
+  right: 22px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none; /* only the pills themselves are clickable */
+}
+
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-left > *,
+.topbar-right > * {
+  pointer-events: auto;
+}
+
+.topbar .site-logo,
+.topbar .theme-toggle,
+.topbar .fair-housing {
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+}
+
+.topbar-name,
+.topbar-brokerage {
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgb(var(--bg-rgb) / 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.25s, background 0.4s, color 0.25s;
+}
+
+.topbar-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 16px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.topbar-name-main {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.topbar-name-sub {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.topbar-brokerage {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 5px 0 14px;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.topbar-brokerage:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.topbar-brokerage-name {
+  font: 600 12.5px/1 var(--sans);
+  letter-spacing: 0.02em;
+}
+
+.topbar-brokerage img {
+  height: 34px;
+  width: auto;
+  border-radius: 8px;
+  background: #fdfcfa;
+  padding: 2px 6px;
+}
+
+/* Phones and tablets: two rows. Row 1 = logo + name, row 2 = theme, notice, brokerage. */
+@media (max-width: 860px) {
+  .topbar {
+    top: 12px;
+    left: 14px;
+    right: 14px;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  /* soft backdrop so page content scrolling underneath doesn't clash */
+  .topbar::before {
+    content: '';
+    position: absolute;
+    inset: -12px -14px -14px;
+    background: linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.92) 60%, rgb(var(--bg-rgb) / 0));
+    z-index: -1;
+  }
+
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .topbar .site-logo,
+  .topbar .theme-toggle {
+    height: 38px;
+  }
+
+  .topbar .theme-toggle {
+    width: 38px;
+  }
+
+  .topbar-name {
+    height: 38px;
+    padding: 0 12px;
+  }
+
+  .topbar-name-main {
+    font-size: 12.5px;
+  }
+
+  .topbar-name-sub {
+    font-size: 10.5px;
+  }
+
+  .topbar-brokerage {
+    height: 38px;
+    gap: 8px;
+    padding: 0 4px 0 10px;
+  }
+
+  .topbar-brokerage-name {
+    font-size: 11px;
+  }
+
+  .topbar-brokerage img {
+    height: 30px;
+  }
+
+  /* leave room for the taller bar */
+  .layout-phone .section:first-child {
+    padding-top: 130px;
+  }
+}
+
+@media (max-width: 360px) {
+  .topbar-brokerage-name {
+    display: none;
+  }
+}

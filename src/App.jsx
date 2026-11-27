@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { SECTIONS, FAIR_HOUSING } from './content.js'
+import { SECTIONS } from './content.js'
 import Dial from './components/Dial.jsx'
 import Spotlight from './components/Spotlight.jsx'
 import Home from './components/Home.jsx'
@@ -7,8 +7,7 @@ import Reviews from './components/Reviews.jsx'
 import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
 import Socials from './components/Socials.jsx'
-import ThemeToggle from './components/ThemeToggle.jsx'
-import Logo from './components/Logo.jsx'
+import TopBar from './components/TopBar.jsx'
 import SiteFooter from './components/SiteFooter.jsx'
 
 const LABELS = SECTIONS.map((s) => s.label)
@@ -93,11 +92,7 @@ export default function App() {
     <>
       <Spotlight />
       <div className="grain" aria-hidden="true" />
-      <Logo onClick={() => goToSection(0)} />
-      <a className="fair-housing" href={FAIR_HOUSING.url} target="_blank" rel="noreferrer">
-        {FAIR_HOUSING.label}
-      </a>
-      <ThemeToggle />
+      <TopBar onHome={() => goToSection(0)} />
       <main className={isPhone ? 'layout-phone' : 'layout-desktop'}>
         <Home onContact={() => goToSection(3)} />
         <Reviews />
