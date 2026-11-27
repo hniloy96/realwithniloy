@@ -529,19 +529,25 @@ main {
   width: min(360px, 34%);
 }
 
-/* MIDI keyboard and coffee cup: share a spot right beside the 24h stat */
-.hobby-stats {
+/* MIDI keyboard and coffee cup: share a spot right beside the 24h stat,
+   at their full size, floating faintly behind the end of the stats row */
+.facts {
   position: relative;
-  flex: 0 1 104px;
-  min-width: 72px;
-  width: auto;
-  align-self: center;
-  opacity: 0.16;
-  margin-left: -6px;
 }
 
-[data-theme='light'] .hobby-stats {
-  opacity: 0.2;
+.hobby-stats {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.hobby-stats.hobby-item-0 {
+  width: min(320px, 70%);
+}
+
+.hobby-stats.hobby-item-2 {
+  width: min(200px, 44%);
 }
 
 @media (max-width: 860px) {
@@ -552,9 +558,6 @@ main {
     width: 76%;
   }
 
-  .hobby-stats {
-    width: 96px;
-  }
 }
 
 .vines-layer {

@@ -118,7 +118,7 @@ export default function HobbyMorph({ index, spot, className = '' }) {
       {visible && (
         <motion.div
           key={index}
-          className={`hobby-morph hobby-${spot} ${className}`}
+          className={`hobby-morph hobby-${spot} hobby-item-${index} ${className}`}
           initial={reduce ? 'show' : 'hidden'}
           animate="show"
           exit="exit"
