@@ -23,6 +23,8 @@
   --shadow: rgba(0, 0, 0, 0.9);
   --grain: 0.07;
   --dot: rgba(236, 230, 220, 0.26);
+  --spot-rgb: 227 201 168; /* soft light that follows the cursor */
+  --spot-alpha: 0.075;
   --hand: "Ranade", Georgia, serif; /* dial menu + names */
   --sans: "Ranade", system-ui, -apple-system, "Segoe UI", sans-serif; /* everything else */
   --script: "Dudu Calligraphy", "Segoe Script", cursive; /* yellow accent handwriting */
@@ -780,6 +782,8 @@ main {
   --shadow: rgba(60, 45, 30, 0.35);
   --grain: 0.045;
   --dot: rgba(30, 28, 25, 0.22);
+  --spot-rgb: 40 30 20; /* soft shadow that follows the cursor */
+  --spot-alpha: 0.07;
   color-scheme: light;
 }
 

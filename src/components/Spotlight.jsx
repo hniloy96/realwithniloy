@@ -7,7 +7,7 @@ export default function Spotlight() {
   const y = useMotionValue(-1000)
   const sx = useSpring(x, { stiffness: 90, damping: 20 })
   const sy = useSpring(y, { stiffness: 90, damping: 20 })
-  const background = useMotionTemplate`radial-gradient(520px circle at ${sx}px ${sy}px, rgb(var(--glow-rgb) / 0.075), transparent 70%)`
+  const background = useMotionTemplate`radial-gradient(520px circle at ${sx}px ${sy}px, rgb(var(--spot-rgb) / var(--spot-alpha)), transparent 70%)`
 
   useEffect(() => {
     const onMove = (e) => {

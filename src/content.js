@@ -35,7 +35,7 @@ export const REVIEWS = [
   },
   {
     quote:
-      'Selling my mom’s house was emotional. Niloy treated it with so much care. He handled every detail so I could just be present for my family.',
+      'Selling my mom’s house was emotional. Niloy treated it with so much care and handled every detail so I could just be present for my family.',
     name: 'Client name',
     detail: 'Sold a family home',
   },
