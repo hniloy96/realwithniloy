@@ -14,12 +14,11 @@ export default function Socials() {
             <a href={s.url} className="social-link" target="_blank" rel="noreferrer">
               <span className="hand social-name">{s.name}</span>
               <span className="muted">{s.handle}</span>
-              <span className="arrow" aria-hidden="true">&nearr;</span>
+              <span className="arrow" aria-hidden="true">↗</span>
             </a>
           </Reveal>
         ))}
       </ul>
-      <p className="muted small">Links are placeholders.</p>
       <footer className="footer">
         <span>&copy; {new Date().getFullYear()} Niloy</span>
         <span>realwithniloy.com</span>

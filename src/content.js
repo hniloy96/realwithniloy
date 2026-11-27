@@ -29,7 +29,7 @@ export const HOME = {
 export const REVIEWS = [
   {
     quote:
-      'We were first-time buyers and terrified. Niloy never rushed us, never made us feel silly for asking. When we got the keys, he was almost as excited as we were.',
+      'We were first-time buyers and terrified. Niloy never rushed us, never made us feel silly for asking. When we got the keys, Niloy was almost as excited as we were.',
     name: 'Client name',
     detail: 'First home, 2025',
   },
@@ -75,11 +75,9 @@ export const CONTACT = {
   phone: '(000) 000-0000',
 }
 
-// PLACEHOLDER links: replace '#' with your real profile URLs
+// Your social profiles
 export const SOCIALS = [
-  { name: 'Instagram', handle: '@realwithniloy', url: '#' },
-  { name: 'TikTok', handle: '@realwithniloy', url: '#' },
-  { name: 'YouTube', handle: 'Real with Niloy', url: '#' },
-  { name: 'LinkedIn', handle: 'Niloy', url: '#' },
-  { name: 'Facebook', handle: 'Real with Niloy', url: '#' },
+  { name: 'Instagram', handle: '@realwithniloy', url: 'https://www.instagram.com/realwithniloy' },
+  { name: 'Facebook', handle: 'realwithniloy', url: 'https://www.facebook.com/realwithniloy' },
+  { name: 'LinkedIn', handle: 'in/hniloy96', url: 'https://www.linkedin.com/in/hniloy96/' },
 ]
