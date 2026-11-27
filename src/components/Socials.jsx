@@ -8,7 +8,7 @@ export default function Socials() {
       <Drift amount={10} className="section-body">
       <Reveal>
         <p className="hand eyebrow">socials</p>
-        <h2 className="title">Come say hi. I share the real side of the work.</h2>
+        <h2 className="title">Come say hi.</h2>
       </Reveal>
       <ul className="social-list">
         {SOCIALS.map((s, i) => (
