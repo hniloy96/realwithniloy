@@ -40,7 +40,7 @@ export default function Contact() {
         <form className="contact-form" onSubmit={onSubmit}>
           <label>
             <span>Your name</span>
-            <input name="name" required autoComplete="name" />
+            <input name="name" required autoComplete="name" placeholder="Your full name" />
           </label>
           <label>
             <span>Email</span>
@@ -60,8 +60,15 @@ export default function Contact() {
             </select>
           </label>
           <label className="full">
-            <span>Tell me a little about where you are</span>
-            <textarea name="message" rows={4} required />
+            <span>Tell me what you&rsquo;re looking for</span>
+            <textarea
+              name="message"
+              rows={4}
+              required
+              placeholder="A first home, selling, a move across town, an investment property…"
+            />
+            {/* subject line for the email you receive */}
+            <input type="hidden" name="_subject" value="New message from realwithniloy.com" />
           </label>
           <button type="submit" className="cta" disabled={status === 'sending'}>
             {status === 'sending' ? 'Sending…' : 'Send message'} <span aria-hidden="true">&rarr;</span>
@@ -70,7 +77,7 @@ export default function Contact() {
             {status === 'sent' && 'Thank you. I’ll get back to you soon.'}
             {status === 'error' && 'Something went wrong. Please try again, or email me directly.'}
             {status === 'offline' &&
-              'This form isn’t connected yet (placeholder). Add a Formspree endpoint in src/content.js to make it send.'}
+              'The form isn’t connected yet. Please email or call me directly for now.'}
           </p>
         </form>
         <aside className="contact-direct">

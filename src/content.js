@@ -75,8 +75,9 @@ export const CONTACT = {
   title: "Let's talk. No pressure, just a conversation.",
   intro:
     "Whether you're dreaming, planning, or ready to move tomorrow, tell me a little about where you are. I'll get back to you personally.",
-  // To make the form send real emails, create a free form at https://formspree.io
-  // and paste its endpoint here, e.g. 'https://formspree.io/f/abcd1234'
+  // The contact form sends through Formspree (free) to niloy@easternprimerealty.com.
+  // Paste your Formspree form endpoint here, e.g. 'https://formspree.io/f/abcd1234'.
+  // Leave it empty and the form shows a friendly "email or call me" note instead.
   formspreeEndpoint: '',
   // Your contact details
   email: 'niloy@easternprimerealty.com',
