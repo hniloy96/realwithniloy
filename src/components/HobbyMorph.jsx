@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
 /*
-  A faint line drawing in the About Me background that keeps changing at
-  random between a MIDI keyboard (music), a computer keyboard (coding) and a
+  A faint line drawing in the About Me background that keeps changing, in
+  order, between a MIDI keyboard (music), a computer keyboard (coding) and a
   coffee cup. Each one sits in its own spot, draws itself in, rests, then fades
   into the next.
 */
@@ -80,7 +80,7 @@ function Coffee() {
 
 const ITEMS = [MidiKeyboard, ComputerKeyboard, Coffee]
 
-// Picks which drawing is showing and changes it at random every few seconds.
+// Picks which drawing is showing and moves to the next one every few seconds.
 export function useHobbyCycle() {
   const reduce = useReducedMotion()
   const [index, setIndex] = useState(0)
@@ -90,13 +90,10 @@ export function useHobbyCycle() {
     let timer
     const next = () => {
       timer = setTimeout(() => {
-        setIndex((cur) => {
-          let n = cur
-          while (n === cur) n = Math.floor(Math.random() * ITEMS.length)
-          return n
-        })
+        // always in order: MIDI keyboard, computer keyboard, coffee, then repeat
+        setIndex((cur) => (cur + 1) % ITEMS.length)
         next()
-      }, 5200 + Math.random() * 2600)
+      }, 6000)
     }
     next()
     return () => clearTimeout(timer)
