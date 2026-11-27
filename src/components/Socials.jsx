@@ -1,13 +1,16 @@
 import { SOCIALS } from '../content.js'
 import Reveal from './Reveal.jsx'
+import Drift from './Drift.jsx'
 
 export default function Socials() {
   return (
     <section id="socials" className="section socials">
-      <Reveal>
-        <p className="hand eyebrow">socials</p>
-        <h2 className="title">Come say hi. I share the real side of the work.</h2>
-      </Reveal>
+      <Drift amount={10}>
+        <Reveal>
+          <p className="hand eyebrow">socials</p>
+          <h2 className="title">Come say hi. I share the real side of the work.</h2>
+        </Reveal>
+      </Drift>
       <ul className="social-list">
         {SOCIALS.map((s, i) => (
           <Reveal key={s.name} as="li" delay={i * 0.07}>

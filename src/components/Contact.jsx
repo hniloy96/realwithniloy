@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { CONTACT } from '../content.js'
 import Reveal from './Reveal.jsx'
+import Drift from './Drift.jsx'
 
 export default function Contact() {
   const [status, setStatus] = useState('idle') // idle | sending | sent | error | offline
@@ -29,11 +30,13 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section contact">
-      <Reveal>
-        <p className="hand eyebrow">contact</p>
-        <h2 className="title">{CONTACT.title}</h2>
-        <p className="body">{CONTACT.intro}</p>
-      </Reveal>
+      <Drift amount={10}>
+        <Reveal>
+          <p className="hand eyebrow">contact</p>
+          <h2 className="title">{CONTACT.title}</h2>
+          <p className="body">{CONTACT.intro}</p>
+        </Reveal>
+      </Drift>
       <Reveal delay={0.1} className="contact-wrap">
         <form className="contact-form" onSubmit={onSubmit}>
           <label>
