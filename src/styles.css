@@ -1337,8 +1337,30 @@ body {
 .footer-logos {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* brokerage logo left, Equal Housing logo right */
-  gap: 22px;
+}
+
+/* links + info on the left, Equal Housing logo right beside them */
+.footer-body {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-text {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.equal-housing {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 600px) {
+  .footer-body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
 }
 
 .equal-housing {
