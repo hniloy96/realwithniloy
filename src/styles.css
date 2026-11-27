@@ -1651,3 +1651,10 @@ body {
     transform: none;
   }
 }
+
+/* phones: the note's arrow (left of the text) points up and in, toward the photo in the middle */
+@media (max-width: 860px) {
+  .note-arrow {
+    transform: none;
+  }
+}
