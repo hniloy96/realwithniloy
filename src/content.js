@@ -83,3 +83,9 @@ export const SOCIALS = [
   { name: 'Facebook', handle: 'realwithniloy', url: 'https://www.facebook.com/realwithniloy' },
   { name: 'LinkedIn', handle: 'in/hniloy96', url: 'https://www.linkedin.com/in/hniloy96/' },
 ]
+
+// Required by New York State: link to the NYS Housing and Anti-Discrimination Notice
+export const FAIR_HOUSING = {
+  label: 'Fair Housing Notice',
+  url: 'https://dos.ny.gov/system/files/documents/2025/03/nys-housing-and-anti-discrimination-notice_02.2025.pdf',
+}

@@ -931,3 +931,43 @@ body {
   -webkit-mask: url('/logo-mark.png') center / contain no-repeat;
   mask: url('/logo-mark.png') center / contain no-repeat;
 }
+
+/* ───────── Fair Housing Notice (top right, next to the theme button) ───────── */
+.fair-housing {
+  position: fixed;
+  top: 26px;
+  right: 76px;
+  z-index: 10;
+  height: 32px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgb(var(--bg-rgb) / 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  font: 500 12.5px/1 var(--sans);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.25s, color 0.25s, background 0.4s;
+}
+
+.fair-housing:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.fair-housing:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 360px) {
+  .fair-housing {
+    font-size: 11.5px;
+    padding: 0 10px;
+  }
+}

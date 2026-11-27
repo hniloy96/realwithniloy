@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { SECTIONS } from './content.js'
+import { SECTIONS, FAIR_HOUSING } from './content.js'
 import Dial from './components/Dial.jsx'
 import Spotlight from './components/Spotlight.jsx'
 import Home from './components/Home.jsx'
@@ -93,6 +93,9 @@ export default function App() {
       <Spotlight />
       <div className="grain" aria-hidden="true" />
       <Logo onClick={() => goToSection(0)} />
+      <a className="fair-housing" href={FAIR_HOUSING.url} target="_blank" rel="noreferrer">
+        {FAIR_HOUSING.label}
+      </a>
       <ThemeToggle />
       <main className={isPhone ? 'layout-phone' : 'layout-desktop'}>
         <Home onContact={() => goToSection(3)} />
