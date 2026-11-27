@@ -965,9 +965,19 @@ body {
   outline-offset: 3px;
 }
 
+/* phones: a little smaller than on desktop */
+@media (max-width: 860px) {
+  .fair-housing {
+    font-size: 11px;
+    height: 30px;
+    top: 27px;
+    padding: 0 12px;
+  }
+}
+
 @media (max-width: 360px) {
   .fair-housing {
-    font-size: 11.5px;
+    font-size: 10.5px;
     padding: 0 10px;
   }
 }
