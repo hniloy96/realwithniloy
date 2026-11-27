@@ -855,3 +855,10 @@ body {
   transform: scaleX(1);
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
 }
+
+.contact-address {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+  line-height: 1.4;
+}

@@ -70,9 +70,10 @@ export const CONTACT = {
   // To make the form send real emails, create a free form at https://formspree.io
   // and paste its endpoint here, e.g. 'https://formspree.io/f/abcd1234'
   formspreeEndpoint: '',
-  // PLACEHOLDER contact details
-  email: 'hello@realwithniloy.com',
-  phone: '(000) 000-0000',
+  // Your contact details
+  email: 'niloy@easternprimerealty.com',
+  phone: '917-943-4863',
+  address: ['120 Washington Ave', 'Endicott, NY 13760'],
 }
 
 // Your social profiles
