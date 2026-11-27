@@ -78,7 +78,7 @@ export const CONTACT = {
   // The contact form sends through Formspree (free) to niloy@easternprimerealty.com.
   // Paste your Formspree form endpoint here, e.g. 'https://formspree.io/f/abcd1234'.
   // Leave it empty and the form shows a friendly "email or call me" note instead.
-  formspreeEndpoint: '',
+  formspreeEndpoint: 'https://formspree.io/f/mrpqddjl',
   // Your contact details
   email: 'niloy@easternprimerealty.com',
   phone: '917-943-4863',

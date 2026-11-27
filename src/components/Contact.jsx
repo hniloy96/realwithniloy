@@ -5,6 +5,7 @@ import Drift from './Drift.jsx'
 
 export default function Contact() {
   const [status, setStatus] = useState('idle') // idle | sending | sent | error | offline
+  const [errorText, setErrorText] = useState('')
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -14,13 +15,19 @@ export default function Contact() {
       return
     }
     setStatus('sending')
+    setErrorText('')
     try {
       const res = await fetch(CONTACT.formspreeEndpoint, {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: new FormData(form),
       })
-      if (!res.ok) throw new Error('Request failed')
+      if (!res.ok) {
+        // Formspree explains what went wrong (for example an invalid email)
+        const data = await res.json().catch(() => ({}))
+        setErrorText(data.errors?.map((er) => er.message).join(' ') || '')
+        throw new Error('Request failed')
+      }
       setStatus('sent')
       form.reset()
     } catch {
@@ -75,7 +82,7 @@ export default function Contact() {
           </button>
           <p className="form-status" role="status">
             {status === 'sent' && 'Thank you. I’ll get back to you soon.'}
-            {status === 'error' && 'Something went wrong. Please try again, or email me directly.'}
+            {status === 'error' && (errorText || 'Something went wrong. Please try again, or email or call me directly.')}
             {status === 'offline' &&
               'The form isn’t connected yet. Please email or call me directly for now.'}
           </p>
