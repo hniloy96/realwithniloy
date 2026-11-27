@@ -1218,3 +1218,15 @@ body {
     white-space: nowrap;
   }
 }
+
+/* Desktop: the photo column lines up with the heading at the top and ends
+   with the last paragraph. Its width is worked out in About.jsx. */
+@media (min-width: 861px) {
+  .about {
+    align-items: flex-start;
+  }
+
+  .about-left.is-fitted {
+    flex: 0 0 auto;
+  }
+}
