@@ -15,6 +15,7 @@ export default function TopBar({ onHome }) {
         <div className="topbar-name">
           <span className="topbar-name-main">Hamim Niloy</span>
           <span className="topbar-name-sub">Real Estate Salesperson</span>
+          <span className="topbar-name-sub">License No: #10401403188</span>
         </div>
       </div>
       <div className="topbar-right">

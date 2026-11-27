@@ -1548,3 +1548,27 @@ body {
     display: none;
   }
 }
+
+/* name block has three lines (name, license type, license number) */
+.topbar-name {
+  height: auto;
+  min-height: 44px;
+  padding: 6px 16px;
+  border-radius: 14px;
+}
+
+.topbar-name-sub {
+  line-height: 1.25;
+}
+
+@media (max-width: 860px) {
+  .topbar-name {
+    min-height: 38px;
+    padding: 5px 12px;
+    border-radius: 12px;
+  }
+
+  .layout-phone .section:first-child {
+    padding-top: 150px;
+  }
+}
