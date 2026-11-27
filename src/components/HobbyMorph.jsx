@@ -4,7 +4,8 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 /*
   A faint line drawing in the About Me background that keeps changing at
   random between a MIDI keyboard (music), a computer keyboard (coding) and a
-  coffee cup. Each one draws itself in, rests, then fades into the next.
+  coffee cup. Each one sits in its own spot, draws itself in, rests, then fades
+  into the next.
 */
 
 const draw = {
@@ -101,15 +102,21 @@ export default function HobbyMorph() {
   }, [reduce])
 
   const Item = ITEMS[index]
+  // each drawing has its own spot in the section (see .hobby-pos-* in styles.css)
   return (
-    <div className="hobby-morph" aria-hidden="true">
-      <svg viewBox="0 0 200 150">
-        <AnimatePresence mode="wait">
-          <motion.g key={index} initial={reduce ? 'show' : 'hidden'} animate="show" exit="exit">
-            <Item />
-          </motion.g>
-        </AnimatePresence>
-      </svg>
-    </div>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={index}
+        className={`hobby-morph hobby-pos-${index}`}
+        initial={reduce ? 'show' : 'hidden'}
+        animate="show"
+        exit="exit"
+        aria-hidden="true"
+      >
+        <svg viewBox="0 0 200 150">
+          <Item />
+        </svg>
+      </motion.div>
+    </AnimatePresence>
   )
 }

@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'motion/react'
 import { HOME } from '../content.js'
+import Drift from './Drift.jsx'
+import Blueprint from './Blueprint.jsx'
 
 export default function Home({ onContact }) {
   const reduce = useReducedMotion()
@@ -36,6 +38,9 @@ export default function Home({ onContact }) {
 
   return (
     <section id="home" className="section home">
+      <Drift amount={-14} className="blueprint">
+        <Blueprint />
+      </Drift>
       <motion.div className="home-text" style={{ x: textX, y: textY }}>
         <motion.p
           className="hand hello"

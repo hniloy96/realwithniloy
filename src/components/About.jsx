@@ -8,19 +8,22 @@ export default function About() {
   return (
     <section id="about" className="section about">
       <HobbyMorph />
-      <Drift amount={-8} className="about-photo-stage">
-        <Vines />
-        <Reveal className="about-photo">
-          <img src={ABOUT.photo} alt="Niloy smiling, black and white photo" loading="lazy" />
-        </Reveal>
-      </Drift>
-      <div className="about-text">
-        <Drift amount={10}>
-          <Reveal>
-            <p className="hand eyebrow">about me</p>
-            <h2 className="title">{ABOUT.title}</h2>
+      <div className="about-photo-stage">
+        {/* the vines and the photo drift by different amounts, so they feel like separate layers */}
+        <Drift amount={-16} className="vines-layer">
+          <Vines />
+        </Drift>
+        <Drift amount={-6}>
+          <Reveal className="about-photo">
+            <img src={ABOUT.photo} alt="Niloy smiling, black and white photo" loading="lazy" />
           </Reveal>
         </Drift>
+      </div>
+      <Drift amount={10} className="about-text">
+        <Reveal>
+          <p className="hand eyebrow">about me</p>
+          <h2 className="title">{ABOUT.title}</h2>
+        </Reveal>
         {ABOUT.paragraphs.map((p, i) => (
           <Reveal key={i} delay={0.08 * i} as="p" className="body">
             {p}
@@ -34,7 +37,7 @@ export default function About() {
             </div>
           ))}
         </Reveal>
-      </div>
+      </Drift>
     </section>
   )
 }

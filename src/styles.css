@@ -497,9 +497,7 @@ main {
 /* faint drawing in the background that changes between hobbies */
 .hobby-morph {
   position: absolute;
-  right: 0;
-  bottom: 8%;
-  width: min(440px, 42%);
+  width: min(420px, 40%);
   color: var(--text);
   opacity: 0.075;
   pointer-events: none;
@@ -524,13 +522,120 @@ main {
   opacity: 0.1;
 }
 
+/* MIDI keyboard: lower right */
+.hobby-pos-0 {
+  right: 0;
+  bottom: 6%;
+}
+
+/* computer keyboard: upper right, above the heading */
+.hobby-pos-1 {
+  right: 4%;
+  top: 4%;
+  width: min(360px, 34%);
+}
+
+/* coffee: upper left, above the photo */
+.hobby-pos-2 {
+  left: 1%;
+  top: 5%;
+  width: min(240px, 24%);
+}
+
 @media (max-width: 860px) {
-  .hobby-morph {
+  .hobby-pos-0 {
+    right: -6%;
+    bottom: 4%;
+    width: 80%;
+  }
+
+  .hobby-pos-1 {
     right: auto;
-    left: 50%;
-    bottom: 12%;
-    width: 86%;
-    transform: translateX(-50%);
+    left: -6%;
+    top: 38%;
+    width: 76%;
+  }
+
+  .hobby-pos-2 {
+    left: auto;
+    right: 0;
+    bottom: auto;
+    top: 2%;
+    width: 46%;
+  }
+}
+
+.vines-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Contact: the button hugs its text and arrow instead of stretching */
+.contact-form .cta {
+  justify-self: start;
+}
+
+/* ───────── Home blueprint sketch ───────── */
+.home {
+  position: relative;
+}
+
+.home > :not(.blueprint) {
+  position: relative;
+  z-index: 1;
+}
+
+.blueprint {
+  position: absolute;
+  right: 0;
+  bottom: -9%;
+  width: min(660px, 56%);
+  color: var(--text);
+  opacity: 0.075;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme='light'] .blueprint {
+  opacity: 0.11;
+}
+
+.blueprint-svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.blueprint-svg path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.blueprint-svg path.fine {
+  stroke-width: 0.8;
+}
+
+.blueprint-svg path.dim {
+  stroke-width: 0.8;
+  stroke-dasharray: 4 4;
+}
+
+.blueprint-svg .dim-label {
+  fill: currentColor;
+  font: 500 11px var(--sans);
+  letter-spacing: 0.08em;
+  text-anchor: middle;
+}
+
+@media (max-width: 860px) {
+  .blueprint {
+    right: -20%;
+    bottom: 6%;
+    width: 130%;
   }
 }
 

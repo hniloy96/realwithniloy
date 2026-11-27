@@ -30,13 +30,12 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section contact">
-      <Drift amount={10}>
-        <Reveal>
-          <p className="hand eyebrow">contact</p>
-          <h2 className="title">{CONTACT.title}</h2>
-          <p className="body">{CONTACT.intro}</p>
-        </Reveal>
-      </Drift>
+      <Drift amount={10} className="section-body">
+      <Reveal>
+        <p className="hand eyebrow">contact</p>
+        <h2 className="title">{CONTACT.title}</h2>
+        <p className="body">{CONTACT.intro}</p>
+      </Reveal>
       <Reveal delay={0.1} className="contact-wrap">
         <form className="contact-form" onSubmit={onSubmit}>
           <label>
@@ -100,6 +99,7 @@ export default function Contact() {
           </div>
         </aside>
       </Reveal>
+      </Drift>
     </section>
   )
 }

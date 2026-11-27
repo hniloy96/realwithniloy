@@ -5,12 +5,11 @@ import Drift from './Drift.jsx'
 export default function Socials() {
   return (
     <section id="socials" className="section socials">
-      <Drift amount={10}>
-        <Reveal>
-          <p className="hand eyebrow">socials</p>
-          <h2 className="title">Come say hi. I share the real side of the work.</h2>
-        </Reveal>
-      </Drift>
+      <Drift amount={10} className="section-body">
+      <Reveal>
+        <p className="hand eyebrow">socials</p>
+        <h2 className="title">Come say hi. I share the real side of the work.</h2>
+      </Reveal>
       <ul className="social-list">
         {SOCIALS.map((s, i) => (
           <Reveal key={s.name} as="li" delay={i * 0.07}>
@@ -26,6 +25,7 @@ export default function Socials() {
         <span>&copy; {new Date().getFullYear()} Niloy</span>
         <span>realwithniloy.com</span>
       </footer>
+      </Drift>
     </section>
   )
 }
