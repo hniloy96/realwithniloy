@@ -783,7 +783,7 @@ main {
   --grain: 0.045;
   --dot: rgba(30, 28, 25, 0.22);
   --spot-rgb: 40 30 20; /* soft shadow that follows the cursor */
-  --spot-alpha: 0.07;
+  --spot-alpha: 0.14;
   color-scheme: light;
 }
 
