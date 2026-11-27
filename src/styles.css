@@ -1416,7 +1416,6 @@ body {
   right: auto;
 }
 
-.topbar-name,
 .topbar-brokerage {
   height: 44px;
   border-radius: 999px;
@@ -1427,26 +1426,6 @@ body {
   transition: border-color 0.25s, background 0.4s, color 0.25s;
 }
 
-.topbar-name {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 16px;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-
-.topbar-name-main {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.topbar-name-sub {
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
 
 .topbar-brokerage {
   display: inline-flex;
@@ -1476,99 +1455,153 @@ body {
   padding: 2px 6px;
 }
 
-/* Phones and tablets: two rows. Row 1 = logo + name, row 2 = theme, notice, brokerage. */
+/* Phones and tablets: still one row, just more compact. The brokerage
+   name folds onto two short lines so everything fits beside each other. */
 @media (max-width: 860px) {
   .topbar {
     top: 12px;
     left: 14px;
     right: 14px;
-    flex-wrap: wrap;
-    row-gap: 8px;
-  }
-
-  /* soft backdrop so page content scrolling underneath doesn't clash */
-  .topbar::before {
-    content: '';
-    position: absolute;
-    inset: -12px -14px -14px;
-    background: linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.92) 60%, rgb(var(--bg-rgb) / 0));
-    z-index: -1;
-  }
-
-  .topbar-right {
-    width: 100%;
-    justify-content: space-between;
     gap: 8px;
   }
 
+  .topbar-right {
+    gap: 6px;
+  }
+
   .topbar .site-logo,
-  .topbar .theme-toggle {
+  .topbar .theme-toggle,
+  .topbar .fair-housing,
+  .topbar-brokerage {
     height: 38px;
+  }
+
+  .topbar .site-logo {
+    padding: 0 11px;
   }
 
   .topbar .theme-toggle {
     width: 38px;
   }
 
-  .topbar-name {
-    height: 38px;
-    padding: 0 12px;
-  }
-
-  .topbar-name-main {
-    font-size: 12.5px;
-  }
-
-  .topbar-name-sub {
-    font-size: 10.5px;
-  }
-
   .topbar-brokerage {
-    height: 38px;
-    gap: 8px;
+    gap: 6px;
     padding: 0 4px 0 10px;
   }
 
   .topbar-brokerage-name {
-    font-size: 11px;
+    max-width: 64px;
+    white-space: normal;
+    font-size: 10.5px;
+    line-height: 1.1;
   }
 
   .topbar-brokerage img {
     height: 30px;
-  }
-
-  /* leave room for the taller bar */
-  .layout-phone .section:first-child {
-    padding-top: 130px;
+    padding: 2px 4px;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 345px) {
   .topbar-brokerage-name {
     display: none;
   }
 }
 
-/* name block has three lines (name, license type, license number) */
-.topbar-name {
-  height: auto;
-  min-height: 44px;
-  padding: 6px 16px;
-  border-radius: 14px;
+
+/* top bar pieces keep their size; nothing gets squashed */
+.topbar-left > *,
+.topbar-right > * {
+  flex-shrink: 0;
 }
 
-.topbar-name-sub {
-  line-height: 1.25;
+/* Brokerage pill: the EP emblem sits in a white circle that fits the pill's
+   rounded end exactly (same inset on top, bottom and right). */
+.topbar-brokerage {
+  height: 44px;
+  padding: 0 5px 0 14px;
+}
+
+.topbar-brokerage img {
+  height: 34px;
+  width: 34px;
+  padding: 3px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fdfcfa;
+}
+
+/* HN badge matches the other pills */
+.topbar .site-logo {
+  height: 44px;
+  padding: 0 13px;
 }
 
 @media (max-width: 860px) {
-  .topbar-name {
-    min-height: 38px;
-    padding: 5px 12px;
-    border-radius: 12px;
+  .topbar .site-logo,
+  .topbar-brokerage {
+    height: 38px;
   }
 
-  .layout-phone .section:first-child {
-    padding-top: 150px;
+  .topbar .site-logo {
+    padding: 0 9px;
+  }
+
+  .topbar-brokerage {
+    padding: 0 4px 0 10px;
+  }
+
+  .topbar-brokerage img {
+    height: 30px;
+    width: 30px;
+    padding: 2px;
+  }
+}
+
+/* phones: tighter Fair Housing pill so the bar stays on one row */
+@media (max-width: 440px) {
+  .topbar .fair-housing {
+    padding: 0 10px;
+    font-size: 10.5px;
+  }
+}
+
+/* narrow phones: brokerage shown by its emblem only */
+@media (max-width: 389px) {
+  .topbar-brokerage-name {
+    display: none;
+  }
+
+  .topbar-brokerage {
+    padding: 0 3px;
+  }
+}
+
+/* all top-bar pills share one height; emblem inset equal on every side */
+.topbar .fair-housing {
+  height: 44px;
+  top: auto;
+}
+
+.topbar-brokerage {
+  padding-right: 4px;
+}
+
+@media (max-width: 860px) {
+  .topbar .fair-housing {
+    height: 38px;
+  }
+
+  .topbar-brokerage {
+    padding-right: 3px;
+  }
+}
+
+/* phones: brokerage name on exactly two lines ("Eastern Prime" / "Realty") */
+@media (max-width: 860px) {
+  .topbar-brokerage-name {
+    max-width: 76px;
+    font-size: 10.5px;
+    line-height: 1.15;
   }
 }

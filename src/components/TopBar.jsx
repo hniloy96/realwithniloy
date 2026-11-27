@@ -4,7 +4,7 @@ import ThemeToggle from './ThemeToggle.jsx'
 
 /*
   The bar pinned to the top of every page.
-  Left: HN logo + name and license type.
+  Left: HN logo.
   Right (in order): theme button, Fair Housing Notice, Eastern Prime Realty.
 */
 export default function TopBar({ onHome }) {
@@ -12,11 +12,6 @@ export default function TopBar({ onHome }) {
     <header className="topbar">
       <div className="topbar-left">
         <Logo onClick={onHome} />
-        <div className="topbar-name">
-          <span className="topbar-name-main">Hamim Niloy</span>
-          <span className="topbar-name-sub">Real Estate Salesperson</span>
-          <span className="topbar-name-sub">License No: #10401403188</span>
-        </div>
       </div>
       <div className="topbar-right">
         <ThemeToggle />
@@ -25,7 +20,7 @@ export default function TopBar({ onHome }) {
         </a>
         <a className="topbar-brokerage" href={FOOTER.brokerageUrl} target="_blank" rel="noreferrer">
           <span className="topbar-brokerage-name">Eastern Prime Realty</span>
-          <img src={FOOTER.companyLogo} alt="Eastern Prime Realty logo" />
+          <img src="/images/ep_mark.png" alt="Eastern Prime Realty logo" />
         </a>
       </div>
     </header>
